@@ -137,6 +137,7 @@
   /**
    * Init isotope layout and filters
    */
+  /* // Commenting out Isotope again for custom layout
   document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
@@ -146,7 +147,7 @@
     imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
       initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
         itemSelector: '.isotope-item',
-        layoutMode: layout,
+        layoutMode: layout, // Ensure layout is masonry (or chosen mode)
         filter: filter,
         sortBy: sort
       });
@@ -166,6 +167,7 @@
     });
 
   });
+  */ // End commented Isotope block 
 
   /**
    * Init swiper sliders
@@ -185,6 +187,48 @@
   }
 
   window.addEventListener("load", initSwiper);
+
+  /** 
+   * Init Portfolio Swiper 
+   */
+  /* // Commenting out Swiper initialization
+  const portfolioSwiper = new Swiper('.portfolio-swiper', {
+    // Configuration changes
+    loop: false,          // Disable looping
+    slidesPerView: 1,     // Show only one slide
+    spaceBetween: 30,   // Adjust space if needed
+    // autoHeight: true,     // Temporarily disable for debugging
+  
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    // Optional: Pagination
+    // pagination: {
+    //   el: '.swiper-pagination',
+    //   clickable: true,
+    // },
+
+    // Make slides clickable (useful if linking the whole slide)
+    // slideToClickedSlide: true,
+
+    // Responsive breakpoints
+    // breakpoints: {
+    //   // when window width is >= 640px
+    //   640: {
+    //     slidesPerView: 2,
+    //     spaceBetween: 20
+    //   },
+    //   // when window width is >= 992px
+    //   992: {
+    //     slidesPerView: 3,
+    //     spaceBetween: 30
+    //   }
+    // }
+  });
+  */
 
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
@@ -225,5 +269,67 @@
   }
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
+
+  /**
+   * Theme Toggle Logic
+   */
+  const themeToggleCheckbox = document.querySelector('#theme-checkbox'); // Select the checkbox
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+  // Apply the saved theme and set initial checkbox state
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (themeToggleCheckbox) themeToggleCheckbox.checked = true; // Check the box for dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure light mode if not dark
+    if (themeToggleCheckbox) themeToggleCheckbox.checked = false; // Uncheck for light mode
+  }
+
+  // Add event listener for the toggle checkbox
+  if (themeToggleCheckbox) {
+    themeToggleCheckbox.addEventListener('change', function() { // Listen for 'change' event
+      document.body.classList.toggle('dark-mode');
+
+      let theme = 'light';
+      if (this.checked) { // Check the checkbox state
+        theme = 'dark';
+      } // No 'else' needed, theme defaults to 'light'
+
+      localStorage.setItem('theme', theme);
+    });
+  }
+
+  /**
+   * Reactive Cursor Background
+   */
+  let cursorX = 0;
+  let cursorY = 0;
+  let targetX = 0;
+  let targetY = 0;
+
+  // Smooth cursor movement with lerp (linear interpolation)
+  function lerp(start, end, factor) {
+    return start + (end - start) * factor;
+  }
+
+  // Update cursor position smoothly
+  function updateCursor() {
+    cursorX = lerp(cursorX, targetX, 0.1);
+    cursorY = lerp(cursorY, targetY, 0.1);
+    
+    document.documentElement.style.setProperty('--cursor-x', `${cursorX}px`);
+    document.documentElement.style.setProperty('--cursor-y', `${cursorY}px`);
+    
+    requestAnimationFrame(updateCursor);
+  }
+
+  // Track mouse movement
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  });
+
+  // Start the animation loop
+  updateCursor();
 
 })();
