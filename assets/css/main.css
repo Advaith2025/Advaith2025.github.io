@@ -6,87 +6,60 @@
 * License: https://bootstrapmade.com/license/
 */
 
+/* Custom Font Faces */
+@font-face {
+  font-family: "AllianceNo1";
+  src: url("../../fonts/Degarism Studio - Alliance No.1 Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AllianceNo2";
+  src: url("../../fonts/Degarism Studio - Alliance No.2 Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NeoPixel"; /* Define the NeoPixel font */
+  src: url("../../fonts/neopixel-font-1745608357-0/neopixel-regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /*--------------------------------------------------------------
 # Font & Color Variables
 # Help: https://bootstrapmade.com/color-system/
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Exo 2", sans-serif;
-  --heading-font: "Rajdhani", sans-serif;
-  --nav-font: "Exo 2", sans-serif;
+  --default-font: "AllianceNo1", "Exo 2", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --heading-font: "AllianceNo2", "Rajdhani", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --nav-font: "AllianceNo2", sans-serif;
 }
 
-/* Global Colors (Light Mode - High Contrast) */
-:root { 
-  --background-color: #ffffff; /* Bright White */
-  --default-color: #000000;    /* Black */
-  --heading-color: #000000;    /* Black */
-  --accent-color: #0d6efd;     /* Standard Bootstrap Blue for accent */
-  --surface-color: #ffffff;    /* White surface */
-  --contrast-color: #000000;   /* Black contrast text (on primary/accent bg) */
-  --border-color: #dee2e6;     /* Light gray border for surfaces */
+/* Global Colors (Dark Mode Only) */
+:root {
+  --background-color: #111111;
+  --default-color: #cccccc;
+  --heading-color: #ffffff;
+  --accent-color: #FF4500; /* New Scarlet Orange (OrangeRed) */
+  --surface-color: #1e1e1e;
+  --contrast-color: #000000;
+  --border-color: #383838;
+  
+  /* Nav Menu Colors (Dark Mode Only) */
+  --nav-color: #cccccc;
+  --nav-hover-color: #ffffff;
+  --nav-active-bg: transparent;
+  --nav-active-color: var(--accent-color);
+  --nav-mobile-background-color: #111111;
+  --nav-dropdown-background-color: #1e1e1e;
+  --nav-dropdown-color: #cccccc;
+  --nav-dropdown-hover-color: #ffffff;
+  
   /* Add reactive background variables */
   --cursor-x: 50vw;
   --cursor-y: 50vh;
-}
-
-/* Dark Mode Colors (Tesla-Inspired) */
-body.dark-mode {
-  --background-color: #181818; /* Very dark gray */
-  --default-color: #e0e0e0;    /* Light gray */
-  --heading-color: #ffffff;    /* White */
-  --accent-color: #149ddd;     /* Keep original blue accent for now */
-  --surface-color: #282828;    /* Lighter dark gray */
-  --contrast-color: #ffffff;   /* White contrast text */
-  --border-color: #444;       /* Darker border */
-}
-
-/* Nav Menu Colors */
-:root {
-  /* Light Mode Nav */
-  --nav-color: #555555;        /* Dark Gray */
-  --nav-hover-color: #000000;   /* Black */
-  --nav-mobile-background-color: #f8f9fa; /* Light Gray */
-  --nav-dropdown-background-color: #ffffff; /* White */
-  --nav-dropdown-color: #555555;     /* Dark Gray */
-  --nav-dropdown-hover-color: #000000;/* Black */
-}
-
-body.dark-mode {
-  /* Dark Mode Nav */
-  --nav-color: #a8a9b4;        /* Original Light Gray */
-  --nav-hover-color: #ffffff;   /* White */
-  --nav-mobile-background-color: #1a1a1a; /* Very Dark Gray */
-  --nav-dropdown-background-color: #282828; /* Lighter Dark Gray */
-  --nav-dropdown-color: #a8a9b4;     /* Original Light Gray */
-  --nav-dropdown-hover-color: #ffffff;/* White */
-}
-
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
-/* TODO: Review if these are still needed or conflict with global dark mode */
-.light-background {
-  --background-color: #f8f9fa; /* Bootstrap light gray */
-  --surface-color: #ffffff;
-}
-body.dark-mode .light-background {
-  --background-color: #212121; /* Slightly lighter than main dark bg */
-  --surface-color: #282828;
-}
-
-.dark-background {
-  --background-color: #333; /* Darker gray for emphasis in light mode? */
-  --default-color: #f0f0f0;
-  --heading-color: #ffffff;
-  --surface-color: #444;
-  --contrast-color: #ffffff;
-}
-body.dark-mode .dark-background {
-  --background-color: #000000; /* Black for extra contrast in dark mode */
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
-  --surface-color: #181818;
-  --contrast-color: #ffffff;
 }
 
 /* Smooth scroll */
@@ -99,202 +72,99 @@ body.dark-mode .dark-background {
 --------------------------------------------------------------*/
 body {
   color: var(--default-color);
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */ /* Remove solid background color */
+  /* Add background image */
+  background-image: url('../img/background.jpg.jpg'); /* Corrected filename */
+  background-size: cover; /* Cover entire viewport */
+  background-attachment: fixed; /* Keep image fixed during scroll */
+  background-position: center center;
   font-family: var(--default-font);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  /* Update cursor style for more rounded look */
-  cursor: url('../img/rocket-cursor.png') 12 12, auto;  /* Reduced from 16 16 to 12 12 for better centering */
+  font-weight: 400; /* Normal weight for body */
+  font-size: 16px; /* Explicitly set base font size */
+  line-height: 1.6;
+  letter-spacing: 0.8px;
+  transition: none; /* No transitions for sharp UI */
+  cursor: url('../img/crusr.png'), auto; /* Custom cursor */
+  -webkit-font-smoothing: antialiased; /* Sharper font rendering */
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Apply borders to surfaces in light mode */
-.section,
+/* EXTREMELY Sharp, Flat Card Styling */
 .card,
 .info-wrap,
-.portfolio-content,
-.service-item,
-.testimonial-item {
-  /* Basic surface styling */
+/* .portfolio-item, */ /* Removed portfolio-item from global card style */
+.resume-item,
+.award-item,
+.testimonial-item p,
+/* .about .content, */ /* REMOVED from card styling */
+.skills .container > div:first-of-type
+/* REMOVE .navmenu a, .theme-toggle-container, .theme-switch .slider */
+{
   background-color: var(--surface-color);
-  transition: background-color 0.3s ease;
+  transition: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px; /* VERY SHARP corners */
+  box-shadow: none;
+  margin-bottom: 15px; /* Reduced spacing */
+  padding: 15px; /* Reduced padding */
 }
 
-:not(body.dark-mode) .section,
-:not(body.dark-mode) .card,
-:not(body.dark-mode) .info-wrap,
-:not(body.dark-mode) .portfolio-content,
-:not(body.dark-mode) .service-item,
-:not(body.dark-mode) .testimonial-item {
+/* Ensure section titles are truly transparent and flat */
+.section-title {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+body.dark-mode .card,
+body.dark-mode .portfolio-item /* etc... */ {
+   box-shadow: none;
    border: 1px solid var(--border-color);
 }
 
-/* Reduce border-radius for angular look */
-.btn,
-.progress,
-.progress-bar,
-.form-control,
-.info-item, 
-.portfolio-content,
-.service-item,
-.testimonial-item,
-.card /* Add other elements as needed */
-{
-  border-radius: 0.15rem; /* Reduce significantly, maybe 0? */
-}
-
-.rounded-circle {
-  border-radius: 50% !important; /* Keep circles circular */
-}
-
-a {
-  color: var(--accent-color);
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a:hover {
-  color: color-mix(in srgb, var(--accent-color), transparent 25%);
-  text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--heading-color);
+/* Headings - Cybertruck Font Style Attempt */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
+  font-weight: 700; /* Make headings bolder */
+  letter-spacing: 1.8px;
+  text-transform: none !important;
+  color: var(--heading-color);
+  margin-bottom: 0.8rem;
 }
 
-/* PHP Email Form Messages
-------------------------------*/
-.php-email-form .error-message {
-  display: none;
-  background: #df1529;
-  color: #ffffff;
-  text-align: left;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1rem; font-weight: 600; text-transform: none; }
 
-.php-email-form .sent-message {
-  display: none;
-  color: #ffffff;
-  background: #059652;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-.php-email-form .loading {
-  display: none;
-  background: var(--surface-color);
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-}
-
-.php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid var(--accent-color);
-  border-top-color: var(--surface-color);
-  animation: php-email-form-loading 1s linear infinite;
-}
-
-@keyframes php-email-form-loading {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/*--------------------------------------------------------------
-# Global Header
---------------------------------------------------------------*/
+/* Header & Nav */
 .header {
-  color: var(--default-color);
-  background-color: var(--background-color);
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  padding: 0 15px;
-  width: 300px;
-  transition: all ease-in-out 0.3s;
+  width: 420px; /* Increased sidebar width */
+  padding: 15px;
   overflow-y: auto;
   z-index: 997;
-  border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  transition: all ease-in-out 0.3s;
+  /* Lighter Frosted glass effect */
+  background-color: rgba(255, 255, 255, 0.25) !important; /* Light semi-transparent */
+  backdrop-filter: blur(12px); /* Slightly more blur for lighter bg */
+  -webkit-backdrop-filter: blur(12px); /* Safari */
+  border-right: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
 }
 
-.header .profile-img img {
-  margin: 15px auto;
-  display: block;
-  width: 120px;
-  border: 8px solid color-mix(in srgb, var(--default-color), transparent 85%);
-}
-
-.header .logo {
-  line-height: 1;
-  margin-bottom: 15px;
-}
-
-.header .logo img {
-  max-height: 32px;
-  margin-right: 8px;
-}
-
-.header .logo h1 {
-  font-size: 24px;
-  margin: 0;
-  font-weight: 700;
-  color: var(--heading-color);
-}
-
-.header .social-links {
-  margin: 0 0 20px 0;
-}
-
-.header .social-links a {
-  font-size: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in srgb, var(--default-color), transparent 90%);
-  color: var(--default-color);
-  margin: 0 2px;
-  border-radius: 50%;
-  text-align: center;
-  width: 40px;
-  height: 40px;
-  transition: 0.3s;
-}
-
-.header .social-links a:hover {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-}
-
-@media (min-width: 1200px) {
-
-  .header~main,
-  .header~#footer {
-    margin-left: 300px;
-  }
+body:not(.dark-mode) .header {
+  background-color: #f8f9fa; /* Light mode header bg */
+  border-right: 1px solid #dee2e6;
 }
 
 @media (max-width: 1199px) {
   .header {
-    left: -100%;
+    left: -420px; /* Match increased width */
   }
 }
 
@@ -325,133 +195,372 @@ h6 {
   background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
 }
 
-/*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-.mobile-nav-toggle {
-  display: none;
+@media (min-width: 1200px) {
+  main,
+  #footer {
+    margin-left: 420px; /* Match increased width */
+  }
 }
 
-.navmenu {
-  padding: 0;
-  width: 100%;
+.header .profile-img img {
+  /* width: 140px !important; */ /* Remove fixed width */
+  /* height: 140px !important; */ /* Remove fixed height */
+  width: 100%; /* Make image fill container width */
+  height: auto; /* Maintain aspect ratio */
+  /* margin: 0 auto 1rem auto; */ /* Remove auto margin */
+  margin-bottom: 1rem; /* Keep bottom margin */
+  /* background: var(--surface-color); */ /* Remove background color */
+  /* border-radius: 50% !important; */ /* Remove circle */
+  border-radius: 15px !important; /* Add pillbox rounding */
 }
 
+.header .logo h1 {
+  font-size: 1.8rem; /* Adjust size */
+  font-weight: 600;
+}
+
+/* Adjust Nav link appearance */
 .navmenu ul {
-  list-style: none;
   padding: 0;
-  margin: 0;
+  list-style: none;
 }
-
+.navmenu li {
+  margin-bottom: 5px;
+}
 .navmenu a,
 .navmenu a:focus {
+  font-size: 1.2rem; /* Increased font size */
+  /* font-family: var(--nav-font) !important; */ /* Remove old nav font */
+  font-family: "NeoPixel", monospace !important; /* Apply NeoPixel font */
+  color: var(--default-color);
+  background: none;
+  padding: 8px 12px; /* Add some padding */
+  display: block; /* Make links block for padding */
+}
+
+.navmenu a i,
+.navmenu a:focus i {
+  font-size: 22px; /* Increased icon size */
+  padding-right: 12px; /* Adjust spacing */
   color: var(--nav-color);
-  padding: 12px 15px;
-  margin-bottom: 8px;
   transition: 0.3s;
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  white-space: nowrap;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
 }
 
-.navmenu a .navicon,
-.navmenu a:focus .navicon {
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.navmenu a .toggle-dropdown,
-.navmenu a:focus .toggle-dropdown {
-  font-size: 12px;
-  line-height: 0;
-  margin-left: auto;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: 0.3s;
-  flex-shrink: 0;
-  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
-}
-
-.navmenu a .toggle-dropdown:hover,
-.navmenu a:focus .toggle-dropdown:hover {
+/* Active/Hover Nav State */
+.navmenu .active > a,
+.navmenu a:hover {
   background-color: var(--accent-color);
+  color: var(--contrast-color);
+  border-radius: 4px;
+}
+.navmenu .active > a i,
+.navmenu a:hover i {
   color: var(--contrast-color);
 }
 
-.navmenu a:hover,
-.navmenu .active,
-.navmenu .active:focus,
-.navmenu li:hover>a {
-  color: var(--nav-hover-color);
-  background-color: color-mix(in srgb, var(--nav-hover-color), transparent 90%); /* Subtle background on hover */
-  transform: translateX(5px); /* Slight shift on hover */
+/* Style for Clock/Date */
+.digital-clock-font {
+  font-family: "NeoPixel", monospace; /* Apply NeoPixel font */
+  color: var(--default-color); /* Use default text color */
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.3); /* Optional: Subtle glow */
 }
 
-.navmenu a:hover .navicon,
-.navmenu .active .navicon,
-.navmenu .active:focus .navicon {
+/* Style for the clock/date container */
+.digital-display {
+  flex-grow: 1; /* Allow it to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0 0 0; /* Add margin top */
+  /* Remove Frosted Orange Background */
+  /* background-color: rgba(255, 106, 0, 0.25); */ 
+  /* backdrop-filter: blur(10px); */
+  /* -webkit-backdrop-filter: blur(10px); */
+  /* border: 1px solid rgba(255, 106, 0, 0.3); */
+  border-radius: 15px; /* Keep Rounded corners */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Restore top border from original inline style */
+}
+
+/* Theme toggle styles need higher specificity? */
+.header .theme-toggle-container {
+  /* Ensure styles from previous steps are applied */
+}
+
+/* Ensure pillbox switch is visible and styled */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  vertical-align: middle;
+  margin-left: 8px; /* Space between icon and switch */
+}
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc; /* Light mode default */
+  transition: .4s;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Sharp */
+}
+body.dark-mode .slider {
+  background-color: var(--surface-color);
+  border-color: var(--border-color);
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 2px; /* Sharp */
+}
+body.dark-mode .slider:before {
+  background-color: #BDBDBD; /* Knob color in dark mode */
+}
+input:checked + .slider {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--accent-color);
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Section Titles */
+.section-title h2 {
+  color: var(--heading-color); /* Explicitly use heading color */
+  font-size: 1.4rem;
+  /* border-bottom: 1px solid var(--border-color); */ /* Removed border */
+  padding-bottom: 0; /* Remove padding */
+  margin-bottom: 10px; /* Adjust margin */
+}
+.section-title h2:after {
+  display: none; /* Remove accent line */
+}
+.section-title p {
+  color: var(--default-color); /* Explicitly use default color */
+  opacity: 0.8; /* Slightly increase opacity */
+  text-transform: none !important;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+/*--------------------------------------------------------------
+# Hero Section Refinements
+--------------------------------------------------------------*/
+section#hero.hero {
+  background-color: #ffffff !important; /* Solid white background */
+  /* color: #111111 !important; */ /* Text color handled below */
+  transition: background-color 0.5s ease;
+  /* border-bottom-left-radius: 40px; */ /* Can restore if desired */
+  /* border-bottom-right-radius: 40px; */ /* Can restore if desired */
+  overflow: hidden; /* Revert overflow */
+  min-height: 40vh; /* Reduce hero height */
+  padding: 4rem 0; /* Adjust padding */
+  /* Remove Frosted Glass Effect & related styles */
+  /* background-color: rgba(255, 255, 255, 0.25) !important; */
+  /* backdrop-filter: blur(12px); */
+  /* -webkit-backdrop-filter: blur(12px); */
+  /* border-radius: 10px; */
+  /* margin: 20px; */
+  /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+}
+
+/* Hero intro text style */
+.hero-intro {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.hero h2, /* This selector might not be used anymore */
+.hero p,
+.hero h1 /* Add h1 to ensure text color is correct */
+{
+  /* color: var(--heading-color); */
+  color: #111111; /* Ensure dark text color */
+}
+
+/* Ensure container inherits hero styles */
+.hero .container {
+  background-color: transparent;
+}
+
+/*--------------------------------------------------------------
+# About Section Refinements
+--------------------------------------------------------------*/
+/* Target the row within the about section for flex layout */
+#about .row {
+  display: flex;
+  align-items: center; /* Vertically center align image and text */
+  gap: 30px;
+}
+
+/* Adjust column sizing if necessary */
+#about .col-lg-4 {
+  width: 40%; /* Increase image column width */
+}
+
+#about .col-lg-8 { /* Text column */
+  flex: 1; /* Allow text to take remaining space */
+}
+
+.about img { /* More specific selector */
+  max-width: 100%; /* Allow image to fill its column */
+  height: auto;
+  border-radius: 8px;
+}
+
+#about .col-lg-4 img {
+  width: 100%;
+  max-width: none;
+}
+
+/* Remove rules targeting .about .content as that class was removed */
+/* .about .content { ... } */
+/* .about .content img { ... } */
+/* .about .content .about-text { ... } */
+/* .about .content h3 { ... } */
+/* .about .content ul { ... } */
+
+/*--------------------------------------------------------------
+# Portfolio Section Refinements
+--------------------------------------------------------------*/
+.portfolio .portfolio-container {
+  /* Remove styles for the old container if they exist */
+  gap: 0;
+  display: block; /* Reset display */
+}
+
+.portfolio .portfolio-custom-layout {
+  /* Container for the new layout */
+}
+
+.portfolio .portfolio-top-row {
+  display: flex;
+  gap: 25px; /* Gap between top row items */
+  margin-bottom: 25px; /* Gap below top row */
+}
+
+.portfolio .portfolio-item {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 0;
+  background-color: transparent !important;
+  /* border-radius: 6px; */ /* Removed rounding from container */
+  /* background-color: var(--surface-color); */ /* Removed background */
+  /* border: 1px solid var(--border-color); */ /* Removed border */
+}
+
+/* Set height for items in top row for consistency */
+.portfolio .portfolio-top-row .portfolio-item {
+  /* height: 350px; */ /* Removed fixed height */
+}
+
+/* Style images directly */
+.portfolio .portfolio-item img {
+  display: block;
+  width: 100%;
+  height: 100%; /* Make image fill the item height */
+  object-fit: cover; /* Reverted back to cover */
+  border-radius: 40px; /* Increased rounding again */
+  transition: filter 0.4s ease-out, transform 0.4s ease-out; /* Smoother transition, add filter */
+}
+
+/* Hover effect on item container */
+.portfolio .portfolio-item:hover img {
+  transform: scale(1); /* Keep scale neutral on hover */
+  filter: blur(4px) brightness(0.7); /* Blur and slightly darken */
+}
+
+/* Portfolio Info Overlay */
+.portfolio .portfolio-item .portfolio-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  transition: all ease-in-out 0.3s;
+  /* Remove frosted glass effect, use solid surface color */
+  background: var(--surface-color); /* Use surface color */
+  /* backdrop-filter: blur(8px); */ /* REMOVE */
+  /* -webkit-backdrop-filter: blur(8px); */ /* REMOVE */
+  padding: 10px 15px;
+  border-radius: 4px; /* Add rounding */
+  opacity: 0; /* Keep it hidden initially */
+}
+
+.portfolio .portfolio-item:hover .portfolio-info {
+  opacity: 1;
+  /* background: color-mix(in srgb, var(--surface-color), transparent 15%); */ /* Remove hover background change, keep solid */
+}
+
+.portfolio .portfolio-item .portfolio-info h4 {
+  font-size: 1.1rem; /* Slightly larger */
+  text-transform: uppercase;
+  color: var(--heading-color); /* Ensure contrast */
+  margin-bottom: 5px; /* Space below heading */
+}
+
+.portfolio .portfolio-item .portfolio-info p {
+  font-size: 0.85rem; /* Slightly larger */
+  text-transform: uppercase;
+  opacity: 1; /* Make fully opaque */
+  color: var(--default-color); /* Ensure contrast */
+  margin-bottom: 15px; /* Space below paragraph */
+}
+
+.portfolio .portfolio-item .portfolio-info .preview-link,
+.portfolio .portfolio-item .portfolio-info .details-link {
+  font-size: 24px; /* Larger icons */
+  color: var(--heading-color); /* Use heading color for better visibility */
+  /* position: static; */ /* Removed */
+  display: inline-block;
+  margin: 0 8px; /* Add horizontal spacing */
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.portfolio .portfolio-item .portfolio-info .preview-link:hover,
+.portfolio .portfolio-item .portfolio-info .details-link:hover {
   color: var(--accent-color);
 }
 
-.navmenu .active .toggle-dropdown,
-.navmenu .active:focus .toggle-dropdown {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
-  transform: rotate(180deg);
-}
-
-.navmenu .dropdown {
-  display: block;
-}
-
-.navmenu .dropdown a,
-.navmenu .dropdown a:focus {
-  color: --nav-dropdown-color;
-}
-
-.navmenu .dropdown a:hover,
-.navmenu .dropdown .active,
-.navmenu .dropdown .active:focus {
-  color: var(--nav-dropdown-hover-color);
-}
-
-.navmenu .dropdown ul {
-  position: static;
-  display: none;
-  z-index: 99;
-  padding: 5px 10px;
-  margin: 5px 10px;
-  background-color: var(--nav-dropdown-background-color);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-  box-shadow: none;
-  transition: all 0.5s ease-in-out;
-}
-
-.navmenu .dropdown ul ul {
-  background-color: rgba(33, 37, 41, 0.1);
-}
-
-.navmenu .dropdown>.dropdown-active {
-  display: block;
-  background-color: rgba(33, 37, 41, 0.03);
-}
+/* Remove specific custom layout styles if they exist */
+.portfolio-custom-layout { display: block; } /* Ensure it shows */
 
 /*--------------------------------------------------------------
 # Global Footer
 --------------------------------------------------------------*/
 .footer {
   color: var(--default-color);
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */ /* Remove solid background */
   font-size: 14px;
   padding: 40px 0;
   position: relative;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  /* Apply frosted glass */
+  background-color: rgba(17, 17, 17, 0.85); /* Slightly darker semi-transparent */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .footer .copyright p {
@@ -584,25 +693,36 @@ h6 {
 section,
 .section {
   color: var(--default-color);
-  background-color: var(--background-color);
-  padding: 80px 0;  /* Increased from 60px */
+  /* background-color: var(--background-color); */ /* Section background should be transparent */
+  padding: 30px 0; /* Reduced vertical padding */
   overflow: clip;
+}
+
+/* Apply frosted glass effect to the main content area */
+main.main { 
+  background-color: rgba(17, 17, 17, 0.8); /* Semi-transparent dark */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* Add padding if needed, or manage through sections */
+  /* padding: 20px; */ 
 }
 
 /*--------------------------------------------------------------
 # Global Section Titles
 --------------------------------------------------------------*/
 .section-title {
-  padding-bottom: 80px;  /* Increased from 60px */
+  padding-bottom: 40px; /* Reduced bottom padding */
   position: relative;
+  text-align: center; /* Center section titles */
 }
 
 .section-title h2 {
   font-size: 32px;
   font-weight: 700;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
   position: relative;
+  display: inline-block; /* Center the line */
 }
 
 .section-title h2:after {
@@ -612,31 +732,19 @@ section,
   width: 50px;
   height: 3px;
   background: var(--accent-color);
-  left: 0;
+  left: 50%;             /* Center the line */
+  transform: translateX(-50%); /* Center the line */
   bottom: 0;
 }
 
 .section-title p {
-  margin-bottom: 1.5rem;  /* Increased from default */
-  line-height: 1.7;  /* Increased line height for better readability */
+  margin-bottom: 0; /* Remove extra margin below paragraph */
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
 }
 
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-.hero {
-  width: 100%;
-  min-height: 60vh; /* Reduce height slightly now that there's no image */
-  position: relative;
-  padding: 80px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--surface-color); /* Use surface color or background-color */
-}
-
-/* Removed hero img styles */
-
 .hero:before {
   /* Remove semi-transparent overlay */
   content: none; 
@@ -730,30 +838,101 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Skills Section
+# Skills Section - Cybertruck UI Style
 --------------------------------------------------------------*/
-/* Remove old progress bar styles */
-/*
-.skills .progress { ... }
-.skills .progress .skill { ... }
-.skills .progress .skill .val { ... }
-.skills .progress-bar-wrap { ... }
-.skills .progress-bar { ... }
-*/
+.skills .skills-container { 
+  /* background-color: rgba(30, 30, 30, 0.75); */ /* REMOVE frosted glass */
+  /* backdrop-filter: blur(10px); */ /* REMOVE */
+  /* -webkit-backdrop-filter: blur(10px); */ /* REMOVE */
+  background-color: var(--surface-color); /* Restore solid surface color */
+  border: 1px solid rgba(56, 56, 56, 0.5);
+  border-radius: 4px; /* Match card style */
+  padding: 20px; /* Add some padding */
+  box-shadow: none; /* Ensure no shadow */
+  margin-top: 20px; /* Add some space above */
+}
 
-/* Style for new skill items */
 .skill-item {
-  padding: 5px 0;
-  margin-bottom: 10px;
-  font-size: 1rem; /* Adjust as needed */
-  font-weight: 500; /* Medium weight */
-  color: var(--default-color);
-  border-bottom: 1px solid color-mix(in srgb, var(--border-color), transparent 50%); /* Subtle separator */
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between label and bar */
 }
 
-.skill-item span {
-  /* Potentially add specific styles to the span if needed */
+.skill-label {
+  width: 35%; /* Adjust label width as needed */
+  text-align: right;
+  font-weight: 600; 
+  color: var(--default-color); 
+  letter-spacing: 1px;
+  text-transform: none !important;
+  font-size: 0.9rem;
 }
+
+.skill-bar-container {
+  flex: 1; /* Bar takes remaining space */
+  height: 25px; /* Bar height */
+  background-color: var(--surface-color); /* Dark background for the bar */
+  border: 1px solid var(--border-color);
+  border-radius: 2px; /* Sharp corners */
+  overflow: hidden; /* Clip the value bar */
+  position: relative; /* For potential pseudo-elements */
+}
+
+.skill-bar-value {
+  height: 100%;
+  background-color: transparent;
+  /* Vertical stripes with small gaps */
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--accent-color) 0,
+    var(--accent-color) 6px,
+    transparent 6px,
+    transparent 8px
+  );
+  background-size: 8px 100%; /* Vertical stripe width and full height */
+  border-radius: 0; /* No rounding on the value itself */
+  /* transition: width 0.6s ease-in-out; */ /* Remove old width transition */
+
+  /* Add transform animation */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s ease-out 0.3s; /* Animate transform, add delay */
+}
+
+/* Add rule to trigger animation when container is visible */
+.skills .container[data-aos="fade-up"].aos-animate .skill-bar-value {
+  transform: scaleX(1);
+}
+
+/* Remove old .skills-list styles */
+/* 
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skills-list li {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background-color: var(--surface-color);
+  color: var(--default-color);
+  border: 1px solid var(--border-color);
+}
+
+.skills-list li:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  border-color: var(--accent-color);
+}
+*/
 
 /*--------------------------------------------------------------
 # Resume Section
@@ -812,198 +991,6 @@ section,
   top: 0;
   background: var(--background-color);
   border: 2px solid var(--accent-color);
-}
-
-/*--------------------------------------------------------------
-# Portfolio Section
---------------------------------------------------------------*/
-/* Swiper Container Adjustments - REMOVED */
-/* 
-.portfolio-swiper {
-  padding-top: 10px;
-  padding-bottom: 40px; 
-  position: relative; 
-}
-*/
-
-/* Style Swiper Navigation Buttons - REMOVED */
-/*
-.portfolio-swiper .swiper-button-prev,
-.portfolio-swiper .swiper-button-next {
-  color: var(--accent-color); 
-  width: 30px; 
-  height: 30px;
-  z-index: 99; 
-  top: 50%; 
-  transform: translateY(-50%);
-  border-radius: 0; 
-  padding: 0; 
-}
-.portfolio-swiper .swiper-button-prev {
-  left: -35px; 
-}
-.portfolio-swiper .swiper-button-next {
-  right: -35px; 
-}
-.portfolio-swiper .swiper-button-prev:after, 
-.portfolio-swiper .swiper-button-next:after {
-  font-size: 1.2rem; 
-  font-weight: bold;
-}
-*/
-
-/* --- Re-add Horizontal Scroll Styles --- REMOVING */
-/* 
-.horizontal-scroll-container {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px 0 20px 0; 
-  gap: 25px; 
-  -webkit-overflow-scrolling: touch; 
-  scroll-snap-type: x mandatory; 
-}
-
-.horizontal-scroll-container::-webkit-scrollbar {
-  display: none; 
-}
-.horizontal-scroll-container {
-  -ms-overflow-style: none;  
-  scrollbar-width: none;  
-}
-
-.horizontal-scroll-container .portfolio-item {
-  flex: 0 0 auto; 
-  width: 80%; 
-  max-width: 400px; 
-  scroll-snap-align: start; 
-}
-*/
-/* --- End Horizontal Scroll Styles --- */
-
-.portfolio .portfolio-filters {
-  padding: 0;
-  margin: 0 auto 20px auto;
-  list-style: none;
-  text-align: center;
-}
-
-.portfolio .portfolio-filters li {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0 10px;
-  line-height: 1;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  transition: all 0.3s ease-in-out;
-}
-
-.portfolio .portfolio-filters li:hover,
-.portfolio .portfolio-filters li.filter-active {
-  color: var(--accent-color);
-}
-
-.portfolio .portfolio-filters li:first-child {
-  margin-left: 0;
-}
-
-.portfolio .portfolio-filters li:last-child {
-  margin-right: 0;
-}
-
-@media (max-width: 575px) {
-  .portfolio .portfolio-filters li {
-    font-size: 14px;
-    margin: 0 5px;
-  }
-}
-
-.portfolio .portfolio-content {
-  position: relative;
-  overflow: hidden;
-  /* Removed transform transition, keep others */
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color); /* Ensure border exists */
-}
-
-.portfolio .portfolio-content img {
-  transition: 0.3s;
-}
-
-/* Adjusted Hover Effect */
-.portfolio .portfolio-content:hover {
-  /* Removed transform: scale(1.03) */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
-  border-color: var(--accent-color); /* Highlight border on hover */
-}
-
-body.dark-mode .portfolio .portfolio-content:hover {
-  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15); /* Lighter shadow for dark mode hover */
-  border-color: var(--accent-color);
-}
-
-/* Keep original info overlay styles */
-.portfolio .portfolio-content .portfolio-info {
-  opacity: 0;
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  transition: all ease-in-out 0.3s;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 15px;
-}
-
-.portfolio .portfolio-content .portfolio-info h4 {
-  font-size: 14px;
-  padding: 5px 10px;
-  font-weight: 400;
-  color: #ffffff;
-  display: inline-block;
-  background-color: var(--accent-color);
-}
-
-.portfolio .portfolio-content .portfolio-info p {
-  position: absolute;
-  bottom: 10px;
-  text-align: center;
-  display: inline-block;
-  left: 0;
-  right: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.portfolio .portfolio-content .portfolio-info .preview-link,
-.portfolio .portfolio-content .portfolio-info .details-link {
-  position: absolute;
-  left: calc(50% - 40px);
-  font-size: 26px;
-  top: calc(50% - 14px);
-  color: #fff;
-  transition: 0.3s;
-  line-height: 1.2;
-}
-
-.portfolio .portfolio-content .portfolio-info .preview-link:hover,
-.portfolio .portfolio-content .portfolio-info .details-link:hover {
-  color: var(--accent-color);
-}
-
-.portfolio .portfolio-content .portfolio-info .details-link {
-  left: 50%;
-  font-size: 34px;
-  line-height: 0;
-}
-
-.portfolio .portfolio-content:hover .portfolio-info {
-  opacity: 1;
-}
-
-.portfolio .portfolio-content:hover img {
-  transform: scale(1.1);
 }
 
 /*--------------------------------------------------------------
@@ -1395,34 +1382,43 @@ body.dark-mode .portfolio .portfolio-content:hover {
 # Awards Section
 --------------------------------------------------------------*/
 .award-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Adjust gap as needed */
-  justify-content: center;
+  display: flex; /* Restore flex display */
+  flex-wrap: wrap; /* Allow items to wrap */
+  gap: 25px; /* Adjust gap as needed */
+  /* justify-content: center; */ /* Remove centering to align items left */
 }
 
 .award-item {
-  background-color: var(--surface-color); 
-  padding: 20px 15px; /* Adjust padding */
-  border-radius: var(--bs-border-radius-sm, 0.15rem); /* Use Bootstrap variable or our reduced value */
-  width: calc(33.333% - 20px); /* Adjust width for responsiveness, example for 3 columns */
-  text-align: center;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added transform and shadow transitions */
+  /* background-color: rgba(30, 30, 30, 0.75) !important; */ /* REMOVE frosted glass */
+  /* backdrop-filter: blur(10px); */ /* REMOVE */
+  /* -webkit-backdrop-filter: blur(10px); */ /* REMOVE */
+  background-color: var(--surface-color); /* Restore solid surface color */
+  border: 1px solid rgba(56, 56, 56, 0.5) !important; /* Adjusted border */
+  border-radius: 22px; /* Increased rounding for app icon effect */
+  box-shadow: none;
+  padding: 25px; /* Increased padding slightly */
+  margin-bottom: 0; /* Remove margin as gap handles spacing */
+  transition: none; /* Ensure no transition interferes */
+  text-align: left; /* Align text to the left */
+  flex-basis: calc(50% - 12.5px); /* Two columns layout (adjust gap calc if needed) */
 }
 
 /* Adjust width for smaller screens */
 @media (max-width: 991px) {
   .award-item {
-    width: calc(50% - 15px);
+    flex-basis: calc(50% - 12.5px); /* Keep two columns on medium */
   }
 }
 
 @media (max-width: 767px) {
   .award-item {
-    width: calc(100% - 10px);
+    flex-basis: 100%; /* Full width on small screens */
   }
+}
+
+/* Make the last item span full width */
+.award-item:last-child {
+  flex-basis: 100%;
 }
 
 .award-item h3 {
@@ -1458,7 +1454,15 @@ body.dark-mode .award-item:hover {
 
 /* Style theme toggle container */
 .theme-toggle-container {
-  border-color: color-mix(in srgb, var(--default-color), transparent 90%) !important; /* Ensure border uses theme color */
+  background-color: transparent;
+  border: none;
+  border-top: 1px solid var(--border-color) !important;
+  padding: 1rem 0 0 0 !important; /* Adjust padding */
+  margin-top: 1rem !important;
+  box-shadow: none;
+  display: flex; /* Use flex for alignment */
+  align-items: center;
+  justify-content: center; /* Center toggle in its container */
 }
 
 /* Style theme toggle button */
@@ -1474,196 +1478,50 @@ body.dark-mode .award-item:hover {
   background-color: color-mix(in srgb, var(--nav-hover-color), transparent 90%);
 }
 
-/* --- End Horizontal Scroll Styles --- */
-
-/* --- Custom Portfolio Layout Styles --- */
-.portfolio-custom-layout .portfolio-top-row {
-  display: flex;
-  margin-bottom: 20px; /* Space between top and bottom rows */
-  gap: 20px; /* Space between robot and cubesat */
-  /* align-items: stretch; */ /* Ensure items stretch if needed, default for flex */
-}
-
-.portfolio-custom-layout .portfolio-robot,
-.portfolio-custom-layout .portfolio-cubesat {
-  flex: 1; /* Let flexbox handle width distribution */
-}
-
-/* Set fixed height for top row item content */
-.portfolio-custom-layout .portfolio-top-row .portfolio-item .portfolio-content {
-  height: 350px; /* Adjust this value as needed */
-  overflow: hidden; /* Needed for object-fit */
-}
-
-/* Make images in top row cover the container height */
-.portfolio-custom-layout .portfolio-top-row .portfolio-item .portfolio-content img {
-  width: 100%;
-  height: 100%; /* Fill the container height */
-  object-fit: cover; /* Cover container, maintain aspect ratio, crop if needed */
-  display: block;
-}
-
-/* Ensure bottom image scales normally */
-.portfolio-custom-layout .portfolio-bottom-row .portfolio-item .portfolio-content img {
-  width: 100%;
-  height: auto; 
-  object-fit: contain; /* Ensure whole image is visible */
-  display: block;
-}
-/* --- End Custom Portfolio Layout Styles --- */
-
-/* Portfolio Item Base Styles (Ensure these apply) */
-.portfolio-item .portfolio-content {
-  position: relative;
-  overflow: hidden;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color);
-  border-radius: 0.15rem;
-}
-
-.portfolio-item .portfolio-content:hover {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  border-color: var(--accent-color);
-}
-
-body.dark-mode .portfolio-item .portfolio-content:hover {
-  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15);
-  border-color: var(--accent-color);
-}
-
-.portfolio-item .portfolio-info {
-  opacity: 0;
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  transition: all ease-in-out 0.3s;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 15px;
-}
-
-.portfolio-item .portfolio-info h4 {
-  font-size: 14px;
-  padding: 5px 10px;
-  font-weight: 400;
-  color: #ffffff;
-  display: inline-block;
-  background-color: var(--accent-color);
-}
-
-.portfolio-item .portfolio-info p {
-  position: absolute;
-  bottom: 10px;
-  text-align: center;
-  display: inline-block;
-  left: 0;
-  right: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.portfolio-item .portfolio-info .preview-link,
-.portfolio-item .portfolio-info .details-link {
-  position: absolute;
-  left: calc(50% - 40px);
-  font-size: 26px;
-  top: calc(50% - 14px);
-  color: #fff;
-  transition: 0.3s;
-  line-height: 1.2;
-}
-
-.portfolio-item .portfolio-info .preview-link:hover,
-.portfolio-item .portfolio-info .details-link:hover {
-  color: var(--accent-color);
-}
-
-.portfolio-item .portfolio-info .details-link {
-  left: 50%;
-  font-size: 34px;
-  line-height: 0;
-}
-
-.portfolio-item .portfolio-content:hover .portfolio-info {
-  opacity: 1;
-}
-/* End Portfolio Item Base Styles */
-
-/* Remove Isotope Filters styles if they exist */
-.portfolio .portfolio-filters { display: none; } 
-
-/*--------------------------------------------------------------
-# Services Section
---------------------------------------------------------------*/
-.services .service-item {
-  position: relative;
-}
-
-.services .service-item .icon {
-  background: var(--accent-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  transition: 0.5s;
-  border: 1px solid var(--accent-color);
-  margin-right: 20px;
-}
-
-.services .service-item .icon i {
-  color: var(--contrast-color);
-  font-size: 24px;
-  line-height: 0;
-}
-
-.services .service-item:hover .icon {
-  background: var(--surface-color);
-}
-
-.services .service-item:hover .icon i {
-  color: var(--accent-color);
-}
-
-.services .service-item .title {
-  font-weight: 700;
-  margin-bottom: 15px;
-  font-size: 18px;
-}
-
-.services .service-item .title a {
-  color: var(--heading-color);
-}
-
-.services .service-item .title a:hover {
-  color: var(--accent-color);
-}
-
-.services .service-item .description {
-  line-height: 24px;
-  font-size: 14px;
-}
-
 /*--------------------------------------------------------------
 # Custom Cursor & Reactive Background
 --------------------------------------------------------------*/
-/* Reactive radial highlight follows cursor - adjusted for smoother feel */
+/* Reactive radial highlight follows cursor - REPLACED */
+/* body::before { */
+/*  content: none; */
+/* } */
+
+/* Shadowy Orb Cursor Follower */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at var(--cursor-x) var(--cursor-y),
-    rgba(20, 157, 221, 0.08),  /* Reduced opacity from 0.15 to 0.08 */
-    transparent 250px  /* Reduced from 300px for subtler effect */
-  );
-  transition: background-position 0.1s ease-out;  /* Smoother transition */
-  z-index: -1;
+  /* Use CSS variables for position, updated by JS */
+  top: var(--cursor-y, 50vh); 
+  left: var(--cursor-x, 50vw);
+  width: 90px; /* Larger orb */
+  height: 90px; /* Larger orb */
+  /* background: radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%); */ /* Old shadow */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%); /* Brighter light gradient */
+  border-radius: 50%;
+  transform: translate(-50%, -50%); /* Center the orb on the cursor */
+  pointer-events: none; /* Prevent interference with clicks */
+  z-index: 9998; /* Below scroll-top but above most content */
+  filter: blur(10px); /* Increase blur slightly */
+  mix-blend-mode: difference; /* Apply difference blend mode */
+  transition: top 0.05s ease-out, left 0.05s ease-out; /* Smooth movement slightly */
+  animation: pulse-orb 4s infinite ease-in-out; /* Add pulsating animation */
+}
+
+/* Keyframes for pulsating effect */
+@keyframes pulse-orb {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1); /* Pulse slightly larger */
+  }
+}
+
+/* Shape change when selecting text */
+body.is-selecting-text::before {
+  transform: translate(-50%, -50%) scale(1.5, 0.8); /* Example: Stretch horizontally */
+  border-radius: 40% / 60%; /* Make it more oval */
+  animation: none; /* Optionally pause pulsing */
 }
 
 /* Add smooth hover transitions */
@@ -1676,17 +1534,18 @@ button,
 
 /* Increase spacing between elements */
 section {
-  padding: 80px 0;  /* Increased from 60px */
+  padding: 60px 0; /* Reset to default, can adjust later */
 }
 
 .section-title {
-  padding-bottom: 80px;  /* Increased from 60px */
+  padding-bottom: 40px; /* Reduced bottom padding */
 }
 
 /* Add more breathing room between elements */
 p {
   margin-bottom: 1.5rem;  /* Increased from default */
   line-height: 1.7;  /* Increased line height for better readability */
+  font-family: var(--default-font);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1695,8 +1554,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Adjust container padding */
 .container {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 15px; /* Standard Bootstrap padding */
+  padding-right: 15px;
 }
 
 @media (max-width: 768px) {
@@ -1704,4 +1563,102 @@ h1, h2, h3, h4, h5, h6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
+}
+
+/* Theme Toggle Slider - Sharp */
+.theme-switch .slider {
+  border-radius: 4px;
+}
+.theme-switch .slider:before {
+  border-radius: 2px; /* Sharpen knob slightly */
+}
+
+.theme-icon {
+  font-size: 1.2rem; /* Adjust icon size */
+  color: var(--default-color); /* Match text color */
+  vertical-align: middle; /* Align with switch */
+  transition: color 0.3s ease;
+}
+
+/* Supplemental text sizing and formatting */
+.section-title p {
+  text-transform: none !important; /* Remove uppercase */
+  font-size: 1.1rem; /* Increase description size */
+  letter-spacing: 0.5px; /* Slight spacing */
+  margin-bottom: 1rem; /* Consistent spacing */
+}
+
+.hero p {
+  font-size: 1.3rem; /* Larger introductory text */
+  font-family: var(--default-font); /* Ensure Alliance font */
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.about .fst-italic,
+.about p.py-3 {
+  font-size: 1.05rem; /* Increase about section text size */
+  font-family: var(--default-font);
+  letter-spacing: 0.5px;
+}
+
+/* Update button colors */
+.btn-primary,
+a.btn-primary {
+  background-color: var(--accent-color);
+}
+.btn-primary:hover,
+a.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 25%);
+}
+
+/* Highlight Active Section in Nav with Orange Box */
+.navmenu li.active a,
+.navmenu li a.active {
+  background-color: var(--accent-color);
+  color: var(--contrast-color) !important;
+}
+
+/* Ensure nav icons also change on active */
+.navmenu li.active a i {
+  color: var(--contrast-color);
+}
+
+/* Added style for frosted glass effect */
+.skills .skills-container { 
+  /* background-color: rgba(30, 30, 30, 0.75); */ /* REMOVE frosted glass */
+  /* backdrop-filter: blur(10px); */ /* REMOVE */
+  /* -webkit-backdrop-filter: blur(10px); */ /* REMOVE */
+  background-color: var(--surface-color); /* Restore solid surface color */
+  border: 1px solid rgba(56, 56, 56, 0.5);
+  border-radius: 4px; /* Match card style */
+  padding: 20px; /* Add some padding */
+  box-shadow: none; /* Ensure no shadow */
+  margin-top: 20px; /* Add some space above */
+}
+
+.skills .progress .skill {
+  /* ... existing code ... */
+}
+
+/*--------------------------------------------------------------
+# Custom Scrollbar Styling (WebKit)
+--------------------------------------------------------------*/
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-color); /* Track color matching dark surface */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color); /* Thumb color using accent */
+  border-radius: 5px;
+  border: 2px solid var(--surface-color); /* Create padding around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--accent-color), white 15%); /* Lighter accent on hover */
 }

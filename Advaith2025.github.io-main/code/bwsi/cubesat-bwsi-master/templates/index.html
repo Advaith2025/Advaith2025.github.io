@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CubeSat Ground Station</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            font-weight: bold;
+            background-color: #0d6efd;
+            color: white;
+        }
+        .health-0 { color: #28a745; } /* Healthy */
+        .health-1 { color: #ffc107; } /* Minor issues in one subsystem */
+        .health-2 { color: #fd7e14; } /* Minor issues in multiple subsystems */
+        .health-3 { color: #dc3545; } /* Major issues in one subsystem */
+        .health-4 { color: #dc3545; } /* Major issues in multiple subsystems */
+        .health-5 { color: #6f42c1; } /* Critical issues in one subsystem */
+        .health-6 { color: #6f42c1; } /* Critical issues in multiple subsystems */
+        .telemetry-table th {
+            font-size: 0.9rem;
+        }
+        .telemetry-table td {
+            font-size: 0.9rem;
+        }
+        .image-thumbnail {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .image-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        #imageModal .modal-dialog {
+            max-width: 80%;
+        }
+        .heatmap-container {
+            position: relative;
+            margin-top: 10px;
+        }
+        .heatmap-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        #connectionStatus {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .battery-indicator {
+            width: 100%;
+            height: 30px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .battery-level {
+            height: 100%;
+            background-color: #28a745;
+            transition: width 0.5s;
+        }
+        .battery-level.warning {
+            background-color: #ffc107;
+        }
+        .battery-level.danger {
+            background-color: #dc3545;
+        }
+        .mission-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .refresh-timer {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: right;
+        }
+        #accelChart {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="connectionStatus" class="alert" role="alert"></div>
+        
+        <h1 class="text-center mb-4">CubeSat Ground Station</h1>
+        
+        <div class="mission-timer" id="missionTimer">Mission Time: 00:00:00</div>
+        
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-4">
+                <!-- Satellite Status Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-satellite"></i> Satellite Status
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Health Status</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <div id="healthIndicator" class="h1 me-3 health-0">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div id="healthStatus">Fully Healthy</div>
+                        </div>
+                        
+                        <h5 class="card-title">Battery Status</h5>
+                        <div class="battery-indicator">
+                            <div id="batteryLevel" class="battery-level" style="width: 0%"></div>
+                        </div>
+                        <p id="batteryPercentage">0%</p>
+                        
+                        <h5 class="card-title">Telemetry</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm telemetry-table">
+                                <tbody id="latestTelemetry">
+                                    <tr><td>Waiting for data...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="refresh-timer">Next refresh in <span id="refreshCounter">10</span>s</div>
+                    </div>
+                </div>
+                
+                <!-- Acceleration Chart Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-tachometer-alt"></i> Acceleration Data
+                    </div>
+                    <div class="card-body">
+                        <canvas id="accelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="col-lg-8">
+                <!-- Latest Image Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-camera"></i> Latest Image
+                    </div>
+                    <div class="card-body">
+                        <div id="latestImageContainer" class="text-center">
+                            <p>Waiting for images...</p>
+                        </div>
+                        <div id="classificationContainer" class="mt-3">
+                            <p>No classification data available yet.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image History Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i> Image History
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="imageHistory">
+                            <p>No images yet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Telemetry History Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i> Telemetry History
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover telemetry-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Battery</th>
+                                        <th>Accel X</th>
+                                        <th>Accel Y</th>
+                                        <th>Accel Z</th>
+                                        <th>Images</th>
+                                        <th>Health</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="telemetryHistory">
+                                    <tr><td colspan="7">No telemetry data yet</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image View</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="modalImageContainer"></div>
+                    <div id="modalClassificationContainer" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    
+    <script>
+        // Global variables
+        let imageModal;
+        let telemetryData = [];
+        let accelChart;
+        let missionStartTime = null;
+        let refreshCountdown = 10;
+        
+        // Health status descriptions
+        const healthDescriptions = {
+            0: "Fully Healthy",
+            1: "Minor issues in a subsystem",
+            2: "Minor issues in multiple subsystems",
+            3: "Major issues in a subsystem",
+            4: "Major issues in multiple subsystems",
+            5: "Critical issues in a subsystem",
+            6: "Critical issues in multiple subsystems"
+        };
+        
+        // Icons for health status
+        const healthIcons = {
+            0: '<i class="fas fa-check-circle"></i>',
+            1: '<i class="fas fa-exclamation-circle"></i>',
+            2: '<i class="fas fa-exclamation-circle"></i>',
+            3: '<i class="fas fa-exclamation-triangle"></i>',
+            4: '<i class="fas fa-exclamation-triangle"></i>',
+            5: '<i class="fas fa-skull-crossbones"></i>',
+            6: '<i class="fas fa-skull-crossbones"></i>'
+        };
+        
+        // Initialize the dashboard
+        $(document).ready(function() {
+            // Initialize the image modal
+            imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            
+            // Initialize the acceleration chart
+            initAccelChart();
+            
+            // Start data refresh cycle
+            refreshData();
+            setInterval(updateRefreshCounter, 1000);
+            
+            // Update mission timer every second
+            setInterval(updateMissionTimer, 1000);
+        });
+        
+        // Initialize acceleration chart
+        function initAccelChart() {
+            const ctx = document.getElementById('accelChart').getContext('2d');
+            accelChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'X',
+                            data: [],
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            tension: 0.4,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Y',
+                            data: [],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            tension: 0.4,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Z',
+                            data: [],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.4,
+                            pointRadius: 2
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    },
+                    animation: {
+                        duration: 500
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update refresh counter
+        function updateRefreshCounter() {
+            refreshCountdown--;
+            if (refreshCountdown <= 0) {
+                refreshData();
+                refreshCountdown = 10;
+            }
+            $('#refreshCounter').text(refreshCountdown);
+        }
+        
+        // Refresh all data
+        function refreshData() {
+            // Check connection status
+            $.getJSON('/api/status', function(data) {
+                updateConnectionStatus(data);
+            });
+            
+            // Get latest telemetry
+            $.getJSON('/api/telemetry/latest', function(data) {
+                if (data && Object.keys(data).length > 0) {
+                    updateLatestTelemetry(data);
+                    
+                    // Set mission start time if not set yet
+                    if (!missionStartTime && data.time) {
+                        missionStartTime = data.time;
+                    }
+                }
+            });
+            
+            // Get telemetry history
+            $.getJSON('/api/telemetry/history', function(data) {
+                if (data && data.length > 0) {
+                    updateTelemetryHistory(data);
+                    updateAccelChart(data);
+                }
+            });
+            
+            // Get latest image
+            $.getJSON('/api/image/latest', function(data) {
+                if (data && Object.keys(data).length > 0) {
+                    updateLatestImage(data);
+                }
+            });
+            
+            // Get image history
+            $.getJSON('/api/image/history', function(data) {
+                if (data && data.length > 0) {
+                    updateImageHistory(data);
+                }
+            });
+        }
+        
+        // Update connection status
+        function updateConnectionStatus(data) {
+            const statusDiv = $('#connectionStatus');
+            if (data.connected) {
+                statusDiv.removeClass('alert-danger').addClass('alert-success');
+                statusDiv.html('<i class="fas fa-link"></i> Connected to CubeSat');
+            } else {
+                statusDiv.removeClass('alert-success').addClass('alert-danger');
+                statusDiv.html('<i class="fas fa-unlink"></i> Disconnected from CubeSat');
+            }
+        }
+        
+        // Update latest telemetry display
+        function updateLatestTelemetry(data) {
+            // Update health status
+            const health = data.health || 0;
+            $('#healthIndicator').attr('class', `h1 me-3 health-${health}`);
+            $('#healthIndicator').html(healthIcons[health]);
+            $('#healthStatus').text(healthDescriptions[health]);
+            
+            // Update battery level
+            const battery = data.battery || 0;
+            const batteryPercentage = Math.round(battery * 100);
+            const batteryLevel = $('#batteryLevel');
+            batteryLevel.css('width', `${batteryPercentage}%`);
+            batteryLevel.removeClass('warning danger');
+            
+            if (batteryPercentage < 20) {
+                batteryLevel.addClass('danger');
+            } else if (batteryPercentage < 50) {
+                batteryLevel.addClass('warning');
+            }
+            
+            $('#batteryPercentage').text(`${batteryPercentage}%`);
+            
+            // Update telemetry table
+            let html = `
+                <tr><td>Time:</td><td>${data.timestamp || 'Unknown'}</td></tr>
+                <tr><td>Accel X:</td><td>${data.accelx?.toFixed(4) || 'N/A'} m/s²</td></tr>
+                <tr><td>Accel Y:</td><td>${data.accely?.toFixed(4) || 'N/A'} m/s²</td></tr>
+                <tr><td>Accel Z:</td><td>${data.accelz?.toFixed(4) || 'N/A'} m/s²</td></tr>
+                <tr><td>Images:</td><td>${data.image_count || 0}</td></tr>
+            `;
+            
+            $('#latestTelemetry').html(html);
+        }
+        
+        // Update telemetry history table
+        function updateTelemetryHistory(data) {
+            // Store telemetry data globally for charts
+            telemetryData = data;
+            
+            // Only show the last 10 entries
+            const recentData = data.slice(-10).reverse();
+            
+            let html = '';
+            recentData.forEach(function(item) {
+                const healthClass = `health-${item.health}`;
+                html += `
+                    <tr>
+                        <td>${item.timestamp || 'Unknown'}</td>
+                        <td>${(item.battery * 100).toFixed(1)}%</td>
+                        <td>${item.accelx?.toFixed(3) || 'N/A'}</td>
+                        <td>${item.accely?.toFixed(3) || 'N/A'}</td>
+                        <td>${item.accelz?.toFixed(3) || 'N/A'}</td>
+                        <td>${item.image_count}</td>
+                        <td class="${healthClass}">${item.health}</td>
+                    </tr>
+                `;
+            });
+            
+            if (html) {
+                $('#telemetryHistory').html(html);
+            }
+        }
+        
+        // Update acceleration chart
+        function updateAccelChart(data) {
+            // Only show the last 20 data points
+            const chartData = data.slice(-20);
+            
+            // Update chart data
+            accelChart.data.labels = chartData.map(item => {
+                const time = new Date(item.time * 1000);
+                return time.getHours() + ':' + String(time.getMinutes()).padStart(2, '0') + ':' + String(time.getSeconds()).padStart(2, '0');
+            });
+            
+            accelChart.data.datasets[0].data = chartData.map(item => item.accelx);
+            accelChart.data.datasets[1].data = chartData.map(item => item.accely);
+            accelChart.data.datasets[2].data = chartData.map(item => item.accelz);
+            
+            accelChart.update();
+        }
+        
+        // Update latest image
+        function updateLatestImage(data) {
+            if (!data.image_path) return;
+            
+            const imagePath = data.image_path.split('/').pop();
+            const imageUrl = `/images/${imagePath}`;
+            
+            let html = `<img src="${imageUrl}" class="img-fluid" alt="Latest captured image" onClick="openImageModal('${imageUrl}', ${JSON.stringify(data.classification_data)})">`;
+            
+            $('#latestImageContainer').html(html);
+            
+            // Update classification data if available
+            if (data.classification_data) {
+                updateClassificationDisplay(data.classification_data, 'classificationContainer');
+            } else {
+                $('#classificationContainer').html('<p>No classification data available for this image.</p>');
+            }
+        }
+        
+        // Update image history
+        function updateImageHistory(data) {
+            let html = '';
+            
+            // Show most recent images first
+            const recentImages = data.slice().reverse();
+            
+            recentImages.forEach(function(item) {
+                if (!item.image_path) return;
+                
+                const imagePath = item.image_path.split('/').pop();
+                const imageUrl = `/images/${imagePath}`;
+                const datetime = item.datetime || 'Unknown';
+                
+                html += `
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="${imageUrl}" class="card-img-top image-thumbnail" alt="Image ${datetime}" 
+                                 onClick="openImageModal('${imageUrl}', ${JSON.stringify(item.classification_data)})">
+                            <div class="card-body p-2">
+                                <p class="card-text small">${datetime}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (html) {
+                $('#imageHistory').html(html);
+            } else {
+                $('#imageHistory').html('<p>No images yet</p>');
+            }
+        }
+        
+        // Open image modal
+        function openImageModal(imageUrl, classificationData) {
+            $('#modalImageContainer').html(`<img src="${imageUrl}" class="img-fluid" alt="Full size image">`);
+            
+            if (classificationData) {
+                updateClassificationDisplay(classificationData, 'modalClassificationContainer');
+            } else {
+                $('#modalClassificationContainer').html('<p>No classification data available for this image.</p>');
+            }
+            
+            imageModal.show();
+        }
+        
+        // Update classification display
+        function updateClassificationDisplay(classificationData, containerId) {
+            if (!classificationData || !Array.isArray(classificationData)) {
+                $(`#${containerId}`).html('<p>No valid classification data available.</p>');
+                return;
+            }
+            
+            // Simple display of classification data
+            let html = '<div class="card"><div class="card-header">Fire Detection Results</div><div class="card-body">';
+            
+            // If it's a 2D array (heatmap), show a summary
+            if (Array.isArray(classificationData[0])) {
+                const maxValue = Math.max(...classificationData.flat());
+                const threshold = 0.5; // Assuming 0.5 is the threshold for fire detection
+                const fireDetected = maxValue >= threshold;
+                
+                html += `
+                    <div class="alert ${fireDetected ? 'alert-danger' : 'alert-success'}">
+                        <strong>${fireDetected ? 'FIRE DETECTED!' : 'No Fire Detected'}</strong><br>
+                        Confidence: ${(maxValue * 100).toFixed(2)}%
+                    </div>
+                `;
+                
+                // Add a simple visualization of the heatmap
+                // This is a basic representation, a real heatmap would be better with a library like heatmap.js
+                html += '<div class="mt-3"><h6>Detection Heatmap</h6><div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px;">';
+                
+                for (let i = 0; i < classificationData.length; i++) {
+                    for (let j = 0; j < classificationData[i].length; j++) {
+                        const value = classificationData[i][j];
+                        const intensity = Math.round(value * 255);
+                        const color = `rgb(${intensity}, ${255 - intensity}, 0)`;
+                        html += `<div style="background-color: ${color}; height: 20px; width: 20px;" title="Value: ${value.toFixed(3)}"></div>`;
+                    }
+                }
+                
+                html += '</div></div>';
+            } else {
+                // If it's a 1D array, show each value
+                html += '<ul class="list-group">';
+                classificationData.forEach((value, index) => {
+                    html += `<li class="list-group-item">Class ${index}: ${value.toFixed(4)}</li>`;
+                });
+                html += '</ul>';
+            }
+            
+            html += '</div></div>';
+            
+            $(`#${containerId}`).html(html);
+        }
+        
+        // Update mission timer
+        function updateMissionTimer() {
+            if (!missionStartTime) return;
+            
+            const now = Math.floor(Date.now() / 1000);
+            const elapsed = now - missionStartTime;
+            
+            if (elapsed < 0) return;
+            
+            const hours = Math.floor(elapsed / 3600);
+            const minutes = Math.floor((elapsed % 3600) / 60);
+            const seconds = elapsed % 60;
+            
+            const timeString = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+            
+            $('#missionTimer').text(`Mission Time: ${timeString}`);
+        }
+    </script>
+</body>
+</html>

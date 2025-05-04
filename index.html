@@ -15,7 +15,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,8 +24,8 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Main CSS File (with Cache Busting) -->
+  <link href="assets/css/main.css?v=1.1" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: iPortfolio
@@ -38,63 +38,70 @@
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex flex-column">
+  <header id="header" class="header dark-background d-flex flex-column">
     <i class="header-toggle d-xl-none bi bi-list"></i>
 
     <div class="profile-img">
       <img src="assets/img/launch1.gif" alt="" class="img-fluid rounded-circle">
     </div>
 
-    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
-      <!-- Uncomment the line below if you also wish to use an image logo -->
-      <!-- <img src="assets/img/logo.png" alt=""> -->
-      <h1 class="sitename">Advaith Renjith</h1>
-    </a>
-
-   
-
     <nav id="navmenu" class="navmenu">
       <ul>
         <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
         <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
         <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
+        <li><a href="#achievements"><i class="bi bi-award navicon"></i> Achievements</a></li>
         <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li> 
-        <li><a href="#awards"><i class="bi bi-file-earmark-text navicon"></i> Awards</a></li>
        
       </ul>
     </nav>
 
-    <!-- Add Theme Toggle Button Here -->
-    <div class="theme-toggle-container text-center mt-4 pt-3 border-top">
-        <span class="me-2">Theme:</span>
-        <button id="theme-toggle" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-sun"></i> <!-- Default: Light Mode Icon -->
-        </button>
+    <!-- Clock and Date Display -->
+    <div class="digital-display">
+      <div class="time-display" style="display: flex; align-items: baseline; justify-content: center; gap: 0.3em; line-height: 1;">
+        <span id="clock-hours" class="digital-clock-font" style="font-size: 5.5rem;">00</span>
+        <span class="digital-clock-font" style="font-size: 5rem; position: relative; top: -0.1em;">:</span>
+        <div class="minutes-seconds-ms" style="display: flex; flex-direction: column; align-items: center; line-height: 1;">
+            <span id="clock-minutes" class="digital-clock-font" style="font-size: 5.5rem;">00</span>
+            <div class="seconds-milliseconds-row" style="display: flex; align-items: baseline; gap: 0.5em; margin-top: -0.2em;">
+              <span id="clock-seconds" class="digital-clock-font" style="font-size: 1.8rem; opacity: 0.8;">00.00</span>
+              <span id="clock-milliseconds" class="digital-clock-font" style="font-size: 1.2rem; opacity: 0.6;">000</span>
+            </div>
+        </div>
+      </div>
+      <div id="clock-date" class="digital-clock-font" style="font-size: 1.8rem; margin-top: 15px; opacity: 0.9;">Date Loading...</div>
     </div>
+
+    <!-- Theme Toggle Switch -->
+    <!--
+    <div class="theme-toggle-container text-center mt-4 pt-3 border-top">
+      <label class="theme-switch" for="theme-checkbox">
+        <i class="bi bi-sun theme-icon"></i>
+        <input type="checkbox" id="theme-checkbox">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    -->
 
   </header>
 
   <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-      <!-- Remove background image -->
-      <!-- <img src="assets/img/earthKan.png" alt="" data-aos="fade-in" class=""> -->
-
+    <section id="hero" class="hero section">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <h2>Advaith Renjith</h2>
-      </div> 
-
-    </section><!-- /Hero Section -->
+        <h1 class="hero-title" style="font-size: 6rem; text-align: center; margin-bottom: 1rem;">Advaith Renjith</h1> 
+        <p class="hero-intro">Pioneering aerospace solutions through robotics, programming, and collaborative research.</p>
+      </div>
+    </section>
 
     <!-- About Section -->
     <section id="about" class="about section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-        <p>A dedicated STEM scholar at Edison Academy Magnet School with a passion for aerospace engineering.</p>
+        <h2>About me</h2>
+        <p>Driven by a passion for aerospace innovation, I am a dedicated STEM scholar focused on leveraging robotics and advanced programming to tackle complex engineering challenges and foster collaborative research in space exploration technologies.</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -103,27 +110,26 @@
           <div class="col-lg-4">
             <img src="assets/img/earthKan.png" class="img-fluid" alt="">
           </div>
-          <div class="col-lg-8 content">
-            <p>Driven by a passion for aerospace and a goal to make a positive impact, I am actively pursuing a rigorous STEM curriculum at Edison Academy Magnet School. My focus is on developing the technical skills and innovative mindset required to contribute meaningfully to the future of aerospace technology.</p>
-
+          <div class="col-lg-8">
+            <h2>My Core Focus</h2>
+            <p class="fst-italic py-3">
+              My primary mission is to apply cutting-edge robotics principles and sophisticated programming techniques to engineer highly efficient, robust, and reliable autonomous systems designed for the unique demands of space exploration and off-world operations.
+            </p>
             <div class="row">
               <div class="col-lg-6">
                 <ul>
-                  <!-- <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>1 May 1995</span></li> -->
-                  <li><i class="bi bi-chevron-right"></i> <strong>School:</strong> <span>Edison Academy Magnet School</span></li>
-                  <!-- <li><i class="bi bi-chevron-right"></i> <strong>:</strong> <span>+123 456 7890</span></li> -->
-                  <!-- <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>New Jersey, USA</span></li> -->
+                  <li><i class="bi bi-chevron-right"></i> <strong>Institution:</strong> Edison Academy Magnet School</li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Edison</span></li>
-                  <!-- <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Master</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>email@example.com</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li> -->
+                  <li><i class="bi bi-chevron-right"></i> <strong>Based In:</strong> Edison, New Jersey</li>
                 </ul>
               </div>
             </div>
+            <p class="py-3">
+              As a student at Edison Academy Magnet School, I actively engage in team-based robotics projects and conduct extensive data-driven research. This hands-on experience allows me to translate theoretical knowledge into practical solutions for tangible, real-world engineering problems, particularly those relevant to aerospace applications.
+            </p>
           </div>
         </div>
 
@@ -133,239 +139,183 @@
 
   
     <!-- Skills Section -->
-    <section id="skills" class="skills section light-background">
+    <section id="skills" class="skills section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Skills</h2>
-        <p>Technical Proficiencies</p>
+        <h2>Technical skills</h2>
+        <p>Demonstrated proficiencies in advanced engineering software and programming languages, tailored for aerospace applications.</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row skills-content skills-animation">
-
-          <div class="col-lg-6">
-            
-            <!-- Simplified Skills List -->
-            <div class="skill-item"><span>CAD Software</span></div>
-            <div class="skill-item"><span>SolidWorks</span></div>
-            <div class="skill-item"><span>Onshape</span></div>
-            <div class="skill-item"><span>Blender</span></div>
-            <div class="skill-item"><span>Python</span></div>
-            <div class="skill-item"><span>Unreal Engine 5</span></div>
-            <div class="skill-item"><span>Gaea</span></div>
-            <div class="skill-item"><span>Houdini</span></div>
-            <div class="skill-item"><span>Hardware Proficiency</span></div>
-            <div class="skill-item"><span>Raspberry Pi</span></div>
-            <div class="skill-item"><span>Arduino</span></div>
-
+        <!-- Cybertruck-style Skill Bars -->
+        <div class="skills-container">
+          <div class="skill-item">
+            <span class="skill-label">CAD Software (SolidWorks, Onshape)</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 95%;"></div>
+            </div>
           </div>
-
-          <div class="col-lg-6">
-
-            <div class="skill-item"><span>Machine Learning</span></div>
-            <div class="skill-item"><span>Deep Learning</span></div>
-            <div class="skill-item"><span>Generative AI</span></div>
-            <div class="skill-item"><span>Robotics</span></div>
-            <div class="skill-item"><span>Research</span></div>
-
+          <div class="skill-item">
+            <span class="skill-label">Blender / Houdini / Gaea</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 80%;"></div>
+            </div>
           </div>
-
+          <div class="skill-item">
+            <span class="skill-label">Python</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-label">Unreal Engine 5</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 75%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-label">Hardware (Raspberry Pi, Arduino)</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-label">Machine Learning / Deep Learning / Generative AI</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 70%;"></div>
+            </div>
+          </div>
+           <div class="skill-item">
+            <span class="skill-label">Creative Thinking / Problem Solving / Research</span>
+            <div class="skill-bar-container">
+              <div class="skill-bar-value" style="width: 90%;"></div>
+            </div>
+          </div>
+          <!-- Add more skill items as needed -->
         </div>
 
       </div>
 
     </section><!-- /Skills Section -->
 
-    <!-- TODO : Resume Section goes here-->
+    <!-- Resume Section -->
+    <section id="resume" class="resume section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Resume</h2>
+        <p>Explore my professional background, skills, and accomplishments in detail. You can view the embedded resume below or download the PDF directly.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="resume-container" style="text-align: center;"> 
+          <!-- Embed PDF -->
+          <iframe src="assets/resume/Advaith Renjith (1).pdf" width="80%" height="700px" style="border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 20px;"></iframe>
+          
+          <!-- Download Link -->
+          <p>
+            <a href="assets/resume/Advaith Renjith (1).pdf" download="Advaith_Renjith_Resume.pdf" class="btn btn-primary" style="background-color: var(--accent-color); border-color: var(--accent-color); color: var(--contrast-color); padding: 10px 25px; text-decoration: none; border-radius: 4px;">
+              Download Resume (PDF)
+            </a>
+          </p>
+        </div>
+      </div>
+    </section><!-- /Resume Section -->
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="awards section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Achievements</h2>
+      </div>
+
+      <div class="container">
+        <div class="award-container">
+          <div class="award-item">
+            <h3>Air Force Award</h3>
+            <p>Received special recognition from the U.S. Air Force Research Laboratory (AFRL) at the Terra North Jersey STEM Fair for the project "Development and Simulation-Based Evaluation of an AI-Driven Hybrid Autonomous System for Precision Wildfire Containment." This award highlights research excellence in math, science, and engineering aligned with areas of critical interest to the Air Force.</p>
+          </div>
+          <div class="award-item">
+            <h3>USAPhO Qualifier</h3>
+            <p>Qualified for the prestigious 2025 USA Physics Olympiad (USAPhO) competition, demonstrating exceptional proficiency and problem-solving skills in advanced physics concepts through rigorous national qualifying examinations.</p>
+          </div>
+          <div class="award-item">
+            <h3>NASA App Development Challenge</h3>
+            <p>Achieved national finalist status in the NASA App Development Challenge, placing among the top four teams from over 1,000 entries nationwide. This recognition includes an invitation to present our application, designed to address real-world challenges faced by NASA, at Mission Control in Houston, TX in April 2025.</p>
+          </div>
+          <div class="award-item">
+            <h3>MIT BWSI CubeSat Challenge - Finalist</h3>
+            <p>Selected as a Top Finalist in the highly competitive 2025 MIT Beaver Works Summer Institute (BWSI) CubeSat Challenge. This involved intensive work on satellite design, engineering principles, and system integration for small satellite applications.</p>
+          </div>
+          <div class="award-item">
+            <h3>FTC Robotics State Qualification</h3>
+            <p>Successfully advanced to the New Jersey state-level competition for the 2025 FIRST Tech Challenge (FTC) season after rigorous regional qualifiers. This achievement required comprehensive design, iterative building, complex programming, and strategic operation of a competition robot to successfully compete in intricate, alliance-based game challenges, thereby demonstrating robust teamwork, problem-solving, and advanced technical engineering skills under pressure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section light-background">
+    <section id="portfolio" class="portfolio section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Portfolio</h2>
-        <p>Featured Projects</p>
+        <h2>Projects</h2>
+        <p>Explore my work in robotics, satellite design, and software engineering.</p>
       </div><!-- End Section Title -->
 
       <div class="container">
-        
-        <!-- Remove isotope-layout div -->
-        <!-- <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order"> -->
 
-          <!-- Remove isotope-container div, add custom layout container -->
-          <div class="portfolio-custom-layout" data-aos="fade-up" data-aos-delay="200">
-            
-            <!-- Top Row: Robot + CubeSat -->
-            <div class="portfolio-top-row d-flex">
-              <!-- Robot Image -->
-              <div class="portfolio-robot portfolio-item">
-                <div class="portfolio-content h-100">
-                  <!-- FDC (Robot) Image -->
-                  <img src="assets/img/portfolio/FDC.png" class="img-fluid" alt="FTC Robot">
-                  <div class="portfolio-info">
-                    <h4>FTC Robot</h4>
-                    <p>FTC Centerstage Competition Robot</p>
-                    <a href="assets/img/portfolio/FDC.png" title="FTC Robot" data-gallery="portfolio-gallery-custom" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                    <!-- <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
-                  </div>
-                </div>
+        <!-- Custom Layout Container -->
+        <div class="portfolio-custom-layout" data-aos="fade-up" data-aos-delay="200">
+
+          <!-- Top Row: Robot + CubeSat -->
+          <div class="portfolio-top-row">
+            <div class="portfolio-item portfolio-robot">
+              <!-- Content Removed: Image only -->
+              <img src="assets/img/portfolio/FDC.png" class="img-fluid" alt="FTC Robot">
+              <!-- Info might need repositioning with CSS -->
+              <div class="portfolio-info">
+                <h4>FTC Robot</h4>
+                <p>FTC Centerstage Robot</p>
+                <a href="assets/img/portfolio/FDC.png" title="FTC Robot" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
               </div>
-              <!-- CubeSat Image -->
-              <div class="portfolio-cubesat portfolio-item">
-                <div class="portfolio-content h-100">
-                  <img src="assets/img/portfolio/CubeSat.png" class="img-fluid" alt="CubeSat Project">
-                  <div class="portfolio-info">
-                    <h4>CubeSat</h4>
-                    <p>MIT BWSI CubeSat Design Project</p>
-                    <a href="assets/img/portfolio/CubeSat.png" title="CubeSat" data-gallery="portfolio-gallery-custom" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                    <!-- <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
-                  </div>
-                </div>
+            </div><!-- End Robot Item -->
+
+            <div class="portfolio-item portfolio-cubesat">
+              <!-- Content Removed: Image only -->
+              <img src="assets/img/portfolio/CubeSat.png" class="img-fluid" alt="CubeSat">
+              <!-- Info might need repositioning with CSS -->
+              <div class="portfolio-info">
+                <h4>CubeSat</h4>
+                <p>MIT BWSI CubeSat</p>
+                <a href="assets/img/portfolio/CubeSat.png" title="CubeSat" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
               </div>
-            </div> <!-- End Top Row -->
+            </div><!-- End CubeSat Item -->
+          </div> <!-- End Top Row -->
 
-            <!-- Bottom Row: ADC Image -->
-            <div class="portfolio-bottom-row">
-              <div class="portfolio-adc portfolio-item">
-                <div class="portfolio-content h-100">
-                  <img src="assets/img/portfolio/ADC.png" class="img-fluid" alt="NASA ADC Project">
-                  <div class="portfolio-info">
-                    <h4>NASA ADC Finalist</h4>
-                    <p>App Development Challenge Finalist Project</p>
-                    <a href="assets/img/portfolio/ADC.png" title="NASA ADC" data-gallery="portfolio-gallery-custom" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                    <!-- <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
-                  </div>
-                </div>
+          <!-- Bottom Row: ADC -->
+          <div class="portfolio-bottom-row">
+            <div class="portfolio-item portfolio-adc">
+              <!-- Content Removed: Image only -->
+              <img src="assets/img/portfolio/ADC.png" class="img-fluid" alt="NASA ADC">
+              <!-- Info might need repositioning with CSS -->
+              <div class="portfolio-info">
+                <h4>NASA ADC Finalist</h4>
+                <p>App Development Challenge</p>
+                <a href="assets/img/portfolio/ADC.png" title="NASA ADC" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
               </div>
-            </div> <!-- End Bottom Row -->
+            </div><!-- End ADC Item -->
+          </div> <!-- End Bottom Row -->
 
-          </div><!-- End Custom Layout Container -->
-
-        <!-- </div> -->
+        </div><!-- End Custom Layout Container -->
 
       </div>
 
     </section><!-- /Portfolio Section -->
-
-    
-<section id="awards" class="portfolio section light-background">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Awards</h2>
-		<!--added begin-->
-        <!-- Remove inline styles and extra tags -->
-        <!-- <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #0b3d91;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            background-color: #1b1b1b;
-            border: 2px solid #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        }
-        h1, h2 {
-            color: #ffffff;
-            text-align: center;
-        }
-        .award-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .award-item {
-            background-color: #005a9c;
-            padding: 15px;
-            border-radius: 8px;
-            width: 250px;
-            text-align: center;
-            border: 2px solid #ffffff;
-            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
-        }
-        .award-item h3 {
-            margin: 5px 0;
-            color: #ffffff;
-        }
-        .award-item p {
-            font-size: 14px;
-            color: #d0d0d0;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-            <section id="awards">
-            <h2>Awards & Achievements</h2>
-            <div class="award-container">
-                <div class="award-item">
-                    <h3>Air Force Award</h3>
-                    <p>Received the Air Force Award at the Terra North Jersey STEM Fair for the project "Development and Simulation‐Based Evaluation of an AI‐Driven Hybrid Autonomous System for Precision Wildfire Containment," recognized by the Air Force Research Laboratory for excellence in mathematics, science, and engineering research.</p>
-                </div>
-                <div class="award-item">
-                    <h3>USAPhO Qualifier</h3>
-                    <p>Secured qualification for the prestigious USA Physics Olympiad in 2025, ranking among the top physics scholars nationwide.</p>
-                </div>
-                <div class="award-item">
-                    <h3>NASA App Development Challenge</h3>
-                    <p>Earned national recognition as one of the top four teams out of 1,000+ entries, invited to present our app to NASA personnel at Johnson Space Center and to the public at Space Center Houston in April 2025.</p>
-                </div>
-                <div class="award-item">
-                    <h3>MIT BWSI CubeSat Challenge - Finalist</h3>
-                    <p>Top Finalist for Satellite Design, 2025</p>
-                </div>
-                <div class="award-item">
-                    <h3>FTC Robotics State Qualification</h3>
-                    <p>Qualified for the state's level of "First Tech Challenge" in NJ, 2025</p>
-                </div>
-            </div>
-        </section>
-    </div>
- 
-		<!--added end-->
-      </div>
-      <!-- Add the award content directly within the main section structure -->
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="award-container">
-            <div class="award-item">
-                <h3>Air Force Award</h3>
-                <p>Received the Air Force Award at the Terra North Jersey STEM Fair for the project "Development and Simulation‐Based Evaluation of an AI‐Driven Hybrid Autonomous System for Precision Wildfire Containment," recognized by the Air Force Research Laboratory for excellence in mathematics, science, and engineering research.</p>
-            </div>
-            <div class="award-item">
-                <h3>USAPhO Qualifier</h3>
-                <p>Secured qualification for the prestigious USA Physics Olympiad in 2025, ranking among the top physics scholars nationwide.</p>
-            </div>
-            <div class="award-item">
-                <h3>NASA App Development Challenge</h3>
-                <p>Earned national recognition as one of the top four teams out of 1,000+ entries, invited to present our app to NASA personnel at Johnson Space Center and to the public at Space Center Houston in April 2025.</p>
-            </div>
-            <div class="award-item">
-                <h3>MIT BWSI CubeSat Challenge - Finalist</h3>
-                <p>Top Finalist for Satellite Design, 2025</p>
-            </div>
-            <div class="award-item">
-                <h3>FTC Robotics State Qualification</h3>
-                <p>Qualified for the state's level of "First Tech Challenge" in NJ, 2025</p>
-            </div>
-        </div>
-      </div>
-
-    </section><!-- /Awards Section -->
-
-     
-
-	 
 
   </main>
 
@@ -375,14 +325,6 @@
       <div class="copyright text-center ">
         <p>© <span>Copyright</span> <strong class="px-1 sitename">Advaith Renjith</strong> <span>All Rights Reserved</span></p>
       </div>
-      <!-- Theme Toggle Button START -->
-      <!-- Remove Theme Toggle Button From Here -->
-      <!-- <div class="theme-toggle-container text-center mt-3">
-          <button id="theme-toggle" class="btn btn-sm btn-outline-secondary">
-              <i class="bi bi-sun"></i> 
-          </button>
-      </div> -->
-      <!-- Theme Toggle Button END -->
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you've purchased the pro version. -->
@@ -412,8 +354,8 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <!-- Main JS File (with Cache Busting) -->
+  <script src="assets/js/main.js?v=1.1"></script>
 
 </body>
 

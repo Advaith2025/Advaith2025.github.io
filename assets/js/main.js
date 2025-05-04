@@ -249,7 +249,7 @@
   });
 
   /**
-   * Navmenu Scrollspy
+   * Navmenu scrollspy
    */
   let navmenulinks = document.querySelectorAll('.navmenu a');
 
@@ -271,65 +271,127 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
   /**
-   * Theme Toggle Logic
+   * Digital Clock in Sidebar
    */
-  const themeToggleCheckbox = document.querySelector('#theme-checkbox'); // Select the checkbox
-  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+  const hoursElement = document.getElementById('clock-hours');
+  const minutesElement = document.getElementById('clock-minutes');
+  const secondsElement = document.getElementById('clock-seconds');
+  const millisecondsElement = document.getElementById('clock-milliseconds'); // Get milliseconds element
+  const dateElement = document.getElementById('clock-date');
 
-  // Apply the saved theme and set initial checkbox state
-  if (currentTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    if (themeToggleCheckbox) themeToggleCheckbox.checked = true; // Check the box for dark mode
-  } else {
-    document.body.classList.remove('dark-mode'); // Ensure light mode if not dark
-    if (themeToggleCheckbox) themeToggleCheckbox.checked = false; // Uncheck for light mode
+  // Options for formatting the date (e.g., Fri Apr 25)
+  const dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+
+  function updateDigitalClock() {
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0'); // Get whole seconds, padded
+    const milliseconds = String(now.getMilliseconds()).padStart(3, '0'); // Format milliseconds to 3 digits
+    
+    // Format date like "Fri Apr 25"
+    const formattedDate = now.toLocaleDateString('en-US', dateOptions).replace(/,/g, '');
+
+    if (hoursElement) {
+        hoursElement.textContent = hours;
+    }
+    if (minutesElement) {
+        minutesElement.textContent = minutes;
+    }
+    if (secondsElement) {
+        secondsElement.textContent = seconds; // Update with whole seconds (SS)
+    }
+    if (millisecondsElement) {
+        millisecondsElement.textContent = milliseconds; // Update milliseconds
+    }
+    if (dateElement) {
+      dateElement.textContent = formattedDate;
+    }
   }
 
-  // Add event listener for the toggle checkbox
-  if (themeToggleCheckbox) {
-    themeToggleCheckbox.addEventListener('change', function() { // Listen for 'change' event
-      document.body.classList.toggle('dark-mode');
-
-      let theme = 'light';
-      if (this.checked) { // Check the checkbox state
-        theme = 'dark';
-      } // No 'else' needed, theme defaults to 'light'
-
-      localStorage.setItem('theme', theme);
-    });
+  // Update the clock frequently for milliseconds
+  if (hoursElement && minutesElement && secondsElement && millisecondsElement && dateElement) {
+      setInterval(updateDigitalClock, 50); // Update every 50ms
+      updateDigitalClock(); // Initial call to display immediately
   }
 
   /**
-   * Reactive Cursor Background
+   * Mouse Follower Effect (Orb with Inertia)
    */
-  let cursorX = 0;
-  let cursorY = 0;
-  let targetX = 0;
-  let targetY = 0;
+  const orbElement = document.documentElement; // Use root element to set CSS vars
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let currentX = window.innerWidth / 2;
+  let currentY = window.innerHeight / 2;
+  const dampingFactor = 0.1; // Adjust for more/less lag (lower = more lag)
 
-  // Smooth cursor movement with lerp (linear interpolation)
-  function lerp(start, end, factor) {
-    return start + (end - start) * factor;
-  }
-
-  // Update cursor position smoothly
-  function updateCursor() {
-    cursorX = lerp(cursorX, targetX, 0.1);
-    cursorY = lerp(cursorY, targetY, 0.1);
-    
-    document.documentElement.style.setProperty('--cursor-x', `${cursorX}px`);
-    document.documentElement.style.setProperty('--cursor-y', `${cursorY}px`);
-    
-    requestAnimationFrame(updateCursor);
-  }
-
-  // Track mouse movement
-  document.addEventListener('mousemove', (e) => {
+  document.addEventListener('mousemove', function(e) {
     targetX = e.clientX;
     targetY = e.clientY;
+    // Direct update removed - handled by animation frame now
+    // document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
+    // document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
   });
 
+  function updateOrbPosition() {
+    // Calculate difference
+    let dx = targetX - currentX;
+    let dy = targetY - currentY;
+
+    // Apply damping (inertia)
+    currentX += dx * dampingFactor;
+    currentY += dy * dampingFactor;
+
+    // Update CSS variables
+    orbElement.style.setProperty('--cursor-x', currentX + 'px');
+    orbElement.style.setProperty('--cursor-y', currentY + 'px');
+
+    // Continue the loop
+    requestAnimationFrame(updateOrbPosition);
+  }
+
   // Start the animation loop
-  updateCursor();
+  requestAnimationFrame(updateOrbPosition);
+
+  /**
+   * Text Selection Shape Change (Experimental)
+   */
+  let isMouseDown = false;
+  let isSelecting = false;
+
+  document.body.addEventListener('mousedown', () => {
+    isMouseDown = true;
+    isSelecting = false; // Reset selection flag on new mousedown
+  });
+
+  document.body.addEventListener('mousemove', () => {
+    // If mouse moves while button is down, assume potential selection
+    if (isMouseDown) {
+      isSelecting = true; 
+      // Check if already has class to avoid constant toggling
+      if (!document.body.classList.contains('is-selecting-text')) {
+         document.body.classList.add('is-selecting-text');
+      }
+    }
+  });
+
+  document.body.addEventListener('mouseup', () => {
+    isMouseDown = false;
+    // Only remove class if we were potentially selecting
+    if (isSelecting) {
+       document.body.classList.remove('is-selecting-text');
+    }
+    isSelecting = false; // Reset flag
+  });
+
+  // Also remove class if selection ends outside the window
+  document.addEventListener('mouseleave', () => {
+     if (isMouseDown || isSelecting) {
+         document.body.classList.remove('is-selecting-text');
+         isMouseDown = false;
+         isSelecting = false;
+     }
+  });
 
 })();

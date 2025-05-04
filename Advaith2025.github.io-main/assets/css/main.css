@@ -1,0 +1,1707 @@
+/**
+* Template Name: iPortfolio
+* Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+* Updated: Jun 29 2024 with Bootstrap v5.3.3
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# Font & Color Variables
+# Help: https://bootstrapmade.com/color-system/
+--------------------------------------------------------------*/
+/* Fonts */
+:root {
+  --default-font: "Exo 2", sans-serif;
+  --heading-font: "Rajdhani", sans-serif;
+  --nav-font: "Exo 2", sans-serif;
+}
+
+/* Global Colors (Light Mode - High Contrast) */
+:root { 
+  --background-color: #ffffff; /* Bright White */
+  --default-color: #000000;    /* Black */
+  --heading-color: #000000;    /* Black */
+  --accent-color: #0d6efd;     /* Standard Bootstrap Blue for accent */
+  --surface-color: #ffffff;    /* White surface */
+  --contrast-color: #000000;   /* Black contrast text (on primary/accent bg) */
+  --border-color: #dee2e6;     /* Light gray border for surfaces */
+  /* Add reactive background variables */
+  --cursor-x: 50vw;
+  --cursor-y: 50vh;
+}
+
+/* Dark Mode Colors (Tesla-Inspired) */
+body.dark-mode {
+  --background-color: #181818; /* Very dark gray */
+  --default-color: #e0e0e0;    /* Light gray */
+  --heading-color: #ffffff;    /* White */
+  --accent-color: #149ddd;     /* Keep original blue accent for now */
+  --surface-color: #282828;    /* Lighter dark gray */
+  --contrast-color: #ffffff;   /* White contrast text */
+  --border-color: #444;       /* Darker border */
+}
+
+/* Nav Menu Colors */
+:root {
+  /* Light Mode Nav */
+  --nav-color: #555555;        /* Dark Gray */
+  --nav-hover-color: #000000;   /* Black */
+  --nav-mobile-background-color: #f8f9fa; /* Light Gray */
+  --nav-dropdown-background-color: #ffffff; /* White */
+  --nav-dropdown-color: #555555;     /* Dark Gray */
+  --nav-dropdown-hover-color: #000000;/* Black */
+}
+
+body.dark-mode {
+  /* Dark Mode Nav */
+  --nav-color: #a8a9b4;        /* Original Light Gray */
+  --nav-hover-color: #ffffff;   /* White */
+  --nav-mobile-background-color: #1a1a1a; /* Very Dark Gray */
+  --nav-dropdown-background-color: #282828; /* Lighter Dark Gray */
+  --nav-dropdown-color: #a8a9b4;     /* Original Light Gray */
+  --nav-dropdown-hover-color: #ffffff;/* White */
+}
+
+/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+/* TODO: Review if these are still needed or conflict with global dark mode */
+.light-background {
+  --background-color: #f8f9fa; /* Bootstrap light gray */
+  --surface-color: #ffffff;
+}
+body.dark-mode .light-background {
+  --background-color: #212121; /* Slightly lighter than main dark bg */
+  --surface-color: #282828;
+}
+
+.dark-background {
+  --background-color: #333; /* Darker gray for emphasis in light mode? */
+  --default-color: #f0f0f0;
+  --heading-color: #ffffff;
+  --surface-color: #444;
+  --contrast-color: #ffffff;
+}
+body.dark-mode .dark-background {
+  --background-color: #000000; /* Black for extra contrast in dark mode */
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #181818;
+  --contrast-color: #ffffff;
+}
+
+/* Smooth scroll */
+:root {
+  scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# General Styling & Shared Classes
+--------------------------------------------------------------*/
+body {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-family: var(--default-font);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Update cursor style for more rounded look */
+  cursor: url('../img/rocket-cursor.png') 12 12, auto;  /* Reduced from 16 16 to 12 12 for better centering */
+}
+
+/* Apply borders to surfaces in light mode */
+.section,
+.card,
+.info-wrap,
+.portfolio-content,
+.service-item,
+.testimonial-item {
+  /* Basic surface styling */
+  background-color: var(--surface-color);
+  transition: background-color 0.3s ease;
+}
+
+:not(body.dark-mode) .section,
+:not(body.dark-mode) .card,
+:not(body.dark-mode) .info-wrap,
+:not(body.dark-mode) .portfolio-content,
+:not(body.dark-mode) .service-item,
+:not(body.dark-mode) .testimonial-item {
+   border: 1px solid var(--border-color);
+}
+
+/* Reduce border-radius for angular look */
+.btn,
+.progress,
+.progress-bar,
+.form-control,
+.info-item, 
+.portfolio-content,
+.service-item,
+.testimonial-item,
+.card /* Add other elements as needed */
+{
+  border-radius: 0.15rem; /* Reduce significantly, maybe 0? */
+}
+
+.rounded-circle {
+  border-radius: 50% !important; /* Keep circles circular */
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+}
+
+/* PHP Email Form Messages
+------------------------------*/
+.php-email-form .error-message {
+  display: none;
+  background: #df1529;
+  color: #ffffff;
+  text-align: left;
+  padding: 15px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.php-email-form .sent-message {
+  display: none;
+  color: #ffffff;
+  background: #059652;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.php-email-form .loading {
+  display: none;
+  background: var(--surface-color);
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+}
+
+.php-email-form .loading:before {
+  content: "";
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: 0 10px -6px 0;
+  border: 3px solid var(--accent-color);
+  border-top-color: var(--surface-color);
+  animation: php-email-form-loading 1s linear infinite;
+}
+
+@keyframes php-email-form-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*--------------------------------------------------------------
+# Global Header
+--------------------------------------------------------------*/
+.header {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 0 15px;
+  width: 300px;
+  transition: all ease-in-out 0.3s;
+  overflow-y: auto;
+  z-index: 997;
+  border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.header .profile-img img {
+  margin: 15px auto;
+  display: block;
+  width: 120px;
+  border: 8px solid color-mix(in srgb, var(--default-color), transparent 85%);
+}
+
+.header .logo {
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.header .logo img {
+  max-height: 32px;
+  margin-right: 8px;
+}
+
+.header .logo h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.header .social-links {
+  margin: 0 0 20px 0;
+}
+
+.header .social-links a {
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--default-color), transparent 90%);
+  color: var(--default-color);
+  margin: 0 2px;
+  border-radius: 50%;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  transition: 0.3s;
+}
+
+.header .social-links a:hover {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+}
+
+@media (min-width: 1200px) {
+
+  .header~main,
+  .header~#footer {
+    margin-left: 300px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .header {
+    left: -100%;
+  }
+}
+
+.header.header-show {
+  left: 0;
+}
+
+.header .header-toggle {
+  color: var(--contrast-color);
+  background-color: var(--accent-color);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 9999;
+  transition: background-color 0.3s;
+}
+
+.header .header-toggle:hover {
+  color: var(--contrast-color);
+  background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+.mobile-nav-toggle {
+  display: none;
+}
+
+.navmenu {
+  padding: 0;
+  width: 100%;
+}
+
+.navmenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navmenu a,
+.navmenu a:focus {
+  color: var(--nav-color);
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+}
+
+.navmenu a .navicon,
+.navmenu a:focus .navicon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.navmenu a .toggle-dropdown,
+.navmenu a:focus .toggle-dropdown {
+  font-size: 12px;
+  line-height: 0;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: 0.3s;
+  flex-shrink: 0;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+}
+
+.navmenu a .toggle-dropdown:hover,
+.navmenu a:focus .toggle-dropdown:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.navmenu a:hover,
+.navmenu .active,
+.navmenu .active:focus,
+.navmenu li:hover>a {
+  color: var(--nav-hover-color);
+  background-color: color-mix(in srgb, var(--nav-hover-color), transparent 90%); /* Subtle background on hover */
+  transform: translateX(5px); /* Slight shift on hover */
+}
+
+.navmenu a:hover .navicon,
+.navmenu .active .navicon,
+.navmenu .active:focus .navicon {
+  color: var(--accent-color);
+}
+
+.navmenu .active .toggle-dropdown,
+.navmenu .active:focus .toggle-dropdown {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  transform: rotate(180deg);
+}
+
+.navmenu .dropdown {
+  display: block;
+}
+
+.navmenu .dropdown a,
+.navmenu .dropdown a:focus {
+  color: --nav-dropdown-color;
+}
+
+.navmenu .dropdown a:hover,
+.navmenu .dropdown .active,
+.navmenu .dropdown .active:focus {
+  color: var(--nav-dropdown-hover-color);
+}
+
+.navmenu .dropdown ul {
+  position: static;
+  display: none;
+  z-index: 99;
+  padding: 5px 10px;
+  margin: 5px 10px;
+  background-color: var(--nav-dropdown-background-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  box-shadow: none;
+  transition: all 0.5s ease-in-out;
+}
+
+.navmenu .dropdown ul ul {
+  background-color: rgba(33, 37, 41, 0.1);
+}
+
+.navmenu .dropdown>.dropdown-active {
+  display: block;
+  background-color: rgba(33, 37, 41, 0.03);
+}
+
+/*--------------------------------------------------------------
+# Global Footer
+--------------------------------------------------------------*/
+.footer {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-size: 14px;
+  padding: 40px 0;
+  position: relative;
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.footer .copyright p {
+  margin-bottom: 0;
+}
+
+.footer .credits {
+  margin-top: 4px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/*--------------------------------------------------------------
+# Preloader
+--------------------------------------------------------------*/
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  overflow: hidden;
+  background: var(--background-color);
+  transition: all 0.6s ease-out;
+}
+
+#preloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #ffffff;
+  border-color: var(--accent-color) transparent var(--accent-color) transparent;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: animate-preloader 1.5s linear infinite;
+}
+
+@keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*--------------------------------------------------------------
+# Scroll Top Button
+--------------------------------------------------------------*/
+.scroll-top {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  right: 15px;
+  bottom: -15px;
+  z-index: 99999;
+  background-color: var(--accent-color);
+  width: 44px;
+  height: 44px;
+  border-radius: 50px;
+  transition: all 0.4s;
+}
+
+.scroll-top i {
+  font-size: 24px;
+  color: var(--contrast-color);
+  line-height: 0;
+}
+
+.scroll-top:hover {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
+  color: var(--contrast-color);
+}
+
+.scroll-top.active {
+  visibility: visible;
+  opacity: 1;
+  bottom: 15px;
+}
+
+/*--------------------------------------------------------------
+# Disable aos animation delay on mobile devices
+--------------------------------------------------------------*/
+@media screen and (max-width: 768px) {
+  [data-aos-delay] {
+    transition-delay: 0 !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Global Page Titles & Breadcrumbs
+--------------------------------------------------------------*/
+.page-title {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 25px 0;
+  position: relative;
+}
+
+.page-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.page-title .breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.page-title .breadcrumbs ol li+li {
+  padding-left: 10px;
+}
+
+.page-title .breadcrumbs ol li+li::before {
+  content: "/";
+  display: inline-block;
+  padding-right: 10px;
+  color: color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+/*--------------------------------------------------------------
+# Global Sections
+--------------------------------------------------------------*/
+section,
+.section {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 80px 0;  /* Increased from 60px */
+  overflow: clip;
+}
+
+/*--------------------------------------------------------------
+# Global Section Titles
+--------------------------------------------------------------*/
+.section-title {
+  padding-bottom: 80px;  /* Increased from 60px */
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.section-title h2:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  left: 0;
+  bottom: 0;
+}
+
+.section-title p {
+  margin-bottom: 1.5rem;  /* Increased from default */
+  line-height: 1.7;  /* Increased line height for better readability */
+}
+
+/*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+.hero {
+  width: 100%;
+  min-height: 60vh; /* Reduce height slightly now that there's no image */
+  position: relative;
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-color); /* Use surface color or background-color */
+}
+
+/* Removed hero img styles */
+
+.hero:before {
+  /* Remove semi-transparent overlay */
+  content: none; 
+}
+
+.hero .container {
+  position: relative;
+  z-index: 3;
+  text-align: center; /* Center the text */
+}
+
+.hero h2 {
+  margin: 0;
+  font-size: 4.5rem; /* Significantly larger */
+  font-weight: 700; /* Keep bold */
+  line-height: 1.1;
+}
+
+/* Removed hero p styles */
+
+/* Removed hero social links styles (if they were there) */
+
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 3rem; /* Adjust mobile size */
+  }
+  /* Removed hero p styles */
+}
+
+/*--------------------------------------------------------------
+# About Section
+--------------------------------------------------------------*/
+.about .content h2 {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.about .content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about .content ul li {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.about .content ul strong {
+  margin-right: 10px;
+}
+
+.about .content ul i {
+  font-size: 16px;
+  margin-right: 5px;
+  color: var(--accent-color);
+  line-height: 0;
+}
+
+/*--------------------------------------------------------------
+# Stats Section
+--------------------------------------------------------------*/
+.stats .stats-item {
+  padding: 30px;
+  width: 100%;
+}
+
+.stats .stats-item i {
+  color: var(--accent-color);
+  display: block;
+  font-size: 44px;
+  float: left;
+  line-height: 0;
+}
+
+.stats .stats-item .purecounter {
+  color: var(--heading-color);
+  font-size: 48px;
+  line-height: 40px;
+  display: block;
+  font-weight: 700;
+  margin-left: 60px;
+}
+
+.stats .stats-item p {
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  padding: 15px 0 0 0;
+  margin: 0 0 0 60px;
+  font-family: var(--heading-font);
+  font-size: 14px;
+}
+
+/*--------------------------------------------------------------
+# Skills Section
+--------------------------------------------------------------*/
+/* Remove old progress bar styles */
+/*
+.skills .progress { ... }
+.skills .progress .skill { ... }
+.skills .progress .skill .val { ... }
+.skills .progress-bar-wrap { ... }
+.skills .progress-bar { ... }
+*/
+
+/* Style for new skill items */
+.skill-item {
+  padding: 5px 0;
+  margin-bottom: 10px;
+  font-size: 1rem; /* Adjust as needed */
+  font-weight: 500; /* Medium weight */
+  color: var(--default-color);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-color), transparent 50%); /* Subtle separator */
+}
+
+.skill-item span {
+  /* Potentially add specific styles to the span if needed */
+}
+
+/*--------------------------------------------------------------
+# Resume Section
+--------------------------------------------------------------*/
+.resume .resume-title {
+  color: var(--heading-color);
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.resume .resume-item {
+  padding: 0 0 20px 20px;
+  margin-top: -2px;
+  border-left: 2px solid var(--accent-color);
+  position: relative;
+}
+
+.resume .resume-item h4 {
+  line-height: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  margin-bottom: 10px;
+}
+
+.resume .resume-item h5 {
+  font-size: 16px;
+  padding: 5px 15px;
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.resume .resume-item ul {
+  padding-left: 20px;
+}
+
+.resume .resume-item ul li {
+  padding-bottom: 10px;
+}
+
+.resume .resume-item:last-child {
+  padding-bottom: 0;
+}
+
+.resume .resume-item::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  left: -9px;
+  top: 0;
+  background: var(--background-color);
+  border: 2px solid var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# Portfolio Section
+--------------------------------------------------------------*/
+/* Swiper Container Adjustments - REMOVED */
+/* 
+.portfolio-swiper {
+  padding-top: 10px;
+  padding-bottom: 40px; 
+  position: relative; 
+}
+*/
+
+/* Style Swiper Navigation Buttons - REMOVED */
+/*
+.portfolio-swiper .swiper-button-prev,
+.portfolio-swiper .swiper-button-next {
+  color: var(--accent-color); 
+  width: 30px; 
+  height: 30px;
+  z-index: 99; 
+  top: 50%; 
+  transform: translateY(-50%);
+  border-radius: 0; 
+  padding: 0; 
+}
+.portfolio-swiper .swiper-button-prev {
+  left: -35px; 
+}
+.portfolio-swiper .swiper-button-next {
+  right: -35px; 
+}
+.portfolio-swiper .swiper-button-prev:after, 
+.portfolio-swiper .swiper-button-next:after {
+  font-size: 1.2rem; 
+  font-weight: bold;
+}
+*/
+
+/* --- Re-add Horizontal Scroll Styles --- REMOVING */
+/* 
+.horizontal-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0 20px 0; 
+  gap: 25px; 
+  -webkit-overflow-scrolling: touch; 
+  scroll-snap-type: x mandatory; 
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+  display: none; 
+}
+.horizontal-scroll-container {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+}
+
+.horizontal-scroll-container .portfolio-item {
+  flex: 0 0 auto; 
+  width: 80%; 
+  max-width: 400px; 
+  scroll-snap-align: start; 
+}
+*/
+/* --- End Horizontal Scroll Styles --- */
+
+.portfolio .portfolio-filters {
+  padding: 0;
+  margin: 0 auto 20px auto;
+  list-style: none;
+  text-align: center;
+}
+
+.portfolio .portfolio-filters li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.portfolio .portfolio-filters li:hover,
+.portfolio .portfolio-filters li.filter-active {
+  color: var(--accent-color);
+}
+
+.portfolio .portfolio-filters li:first-child {
+  margin-left: 0;
+}
+
+.portfolio .portfolio-filters li:last-child {
+  margin-right: 0;
+}
+
+@media (max-width: 575px) {
+  .portfolio .portfolio-filters li {
+    font-size: 14px;
+    margin: 0 5px;
+  }
+}
+
+.portfolio .portfolio-content {
+  position: relative;
+  overflow: hidden;
+  /* Removed transform transition, keep others */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color); /* Ensure border exists */
+}
+
+.portfolio .portfolio-content img {
+  transition: 0.3s;
+}
+
+/* Adjusted Hover Effect */
+.portfolio .portfolio-content:hover {
+  /* Removed transform: scale(1.03) */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+  border-color: var(--accent-color); /* Highlight border on hover */
+}
+
+body.dark-mode .portfolio .portfolio-content:hover {
+  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15); /* Lighter shadow for dark mode hover */
+  border-color: var(--accent-color);
+}
+
+/* Keep original info overlay styles */
+.portfolio .portfolio-content .portfolio-info {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transition: all ease-in-out 0.3s;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+}
+
+.portfolio .portfolio-content .portfolio-info h4 {
+  font-size: 14px;
+  padding: 5px 10px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  background-color: var(--accent-color);
+}
+
+.portfolio .portfolio-content .portfolio-info p {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.portfolio .portfolio-content .portfolio-info .preview-link,
+.portfolio .portfolio-content .portfolio-info .details-link {
+  position: absolute;
+  left: calc(50% - 40px);
+  font-size: 26px;
+  top: calc(50% - 14px);
+  color: #fff;
+  transition: 0.3s;
+  line-height: 1.2;
+}
+
+.portfolio .portfolio-content .portfolio-info .preview-link:hover,
+.portfolio .portfolio-content .portfolio-info .details-link:hover {
+  color: var(--accent-color);
+}
+
+.portfolio .portfolio-content .portfolio-info .details-link {
+  left: 50%;
+  font-size: 34px;
+  line-height: 0;
+}
+
+.portfolio .portfolio-content:hover .portfolio-info {
+  opacity: 1;
+}
+
+.portfolio .portfolio-content:hover img {
+  transform: scale(1.1);
+}
+
+/*--------------------------------------------------------------
+# Services Section
+--------------------------------------------------------------*/
+.services .service-item {
+  position: relative;
+}
+
+.services .service-item .icon {
+  background: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  transition: 0.5s;
+  border: 1px solid var(--accent-color);
+  margin-right: 20px;
+}
+
+.services .service-item .icon i {
+  color: var(--contrast-color);
+  font-size: 24px;
+  line-height: 0;
+}
+
+.services .service-item:hover .icon {
+  background: var(--surface-color);
+}
+
+.services .service-item:hover .icon i {
+  color: var(--accent-color);
+}
+
+.services .service-item .title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.services .service-item .title a {
+  color: var(--heading-color);
+}
+
+.services .service-item .title a:hover {
+  color: var(--accent-color);
+}
+
+.services .service-item .description {
+  line-height: 24px;
+  font-size: 14px;
+}
+
+/*--------------------------------------------------------------
+# Testimonials Section
+--------------------------------------------------------------*/
+.testimonials .testimonials-carousel,
+.testimonials .testimonials-slider {
+  overflow: hidden;
+}
+
+.testimonials .testimonial-item {
+  box-sizing: content-box;
+  text-align: center;
+  min-height: 320px;
+}
+
+.testimonials .testimonial-item .testimonial-img {
+  width: 90px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.testimonials .testimonial-item h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0 5px 0;
+}
+
+.testimonials .testimonial-item h4 {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  margin: 0;
+}
+
+.testimonials .testimonial-item .quote-icon-left,
+.testimonials .testimonial-item .quote-icon-right {
+  color: color-mix(in srgb, var(--accent-color), transparent 40%);
+  font-size: 26px;
+  line-height: 0;
+}
+
+.testimonials .testimonial-item .quote-icon-left {
+  display: inline-block;
+  left: -5px;
+  position: relative;
+}
+
+.testimonials .testimonial-item .quote-icon-right {
+  display: inline-block;
+  right: -5px;
+  position: relative;
+  top: 10px;
+  transform: scale(-1, -1);
+}
+
+.testimonials .testimonial-item p {
+  font-style: italic;
+  margin: 0 15px 15px 15px;
+  padding: 20px;
+  background-color: var(--surface-color);
+  position: relative;
+  margin-bottom: 35px;
+  border-radius: 6px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonials .testimonial-item p::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 20px solid var(--surface-color);
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+  position: absolute;
+  bottom: -20px;
+  left: calc(50% - 20px);
+}
+
+.testimonials .swiper-wrapper {
+  height: auto;
+}
+
+.testimonials .swiper-pagination {
+  margin-top: 40px;
+  position: relative;
+}
+
+.testimonials .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: var(--background-color);
+  opacity: 1;
+  border: 1px solid var(--accent-color);
+}
+
+.testimonials .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# Contact Section
+--------------------------------------------------------------*/
+.contact .info-wrap {
+  background-color: var(--surface-color);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+@media (max-width: 575px) {
+  .contact .info-wrap {
+    padding: 20px;
+  }
+}
+
+.contact .info-item {
+  margin-bottom: 40px;
+}
+
+.contact .info-item i {
+  font-size: 20px;
+  color: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 92%);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  margin-right: 15px;
+}
+
+.contact .info-item h3 {
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.contact .info-item p {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.contact .info-item:hover i {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.contact .php-email-form {
+  background-color: var(--surface-color);
+  height: 100%;
+  padding: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 575px) {
+  .contact .php-email-form {
+    padding: 20px;
+  }
+}
+
+.contact .php-email-form input[type=text],
+.contact .php-email-form input[type=email],
+.contact .php-email-form textarea {
+  font-size: 14px;
+  padding: 10px 15px;
+  box-shadow: none;
+  border-radius: 0;
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+}
+
+.contact .php-email-form input[type=text]:focus,
+.contact .php-email-form input[type=email]:focus,
+.contact .php-email-form textarea:focus {
+  border-color: var(--accent-color);
+}
+
+.contact .php-email-form input[type=text]::placeholder,
+.contact .php-email-form input[type=email]::placeholder,
+.contact .php-email-form textarea::placeholder {
+  color: color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+.contact .php-email-form button[type=submit] {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  border: 0;
+  padding: 10px 30px;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.contact .php-email-form button[type=submit]:hover {
+  background: color-mix(in srgb, var(--accent-color), transparent 25%);
+}
+
+/*--------------------------------------------------------------
+# Portfolio Details Section
+--------------------------------------------------------------*/
+.portfolio-details .portfolio-details-slider img {
+  width: 100%;
+}
+
+.portfolio-details .portfolio-details-slider .swiper-pagination {
+  margin-top: 20px;
+  position: relative;
+}
+
+.portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: color-mix(in srgb, var(--default-color), transparent 85%);
+  opacity: 1;
+}
+
+.portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: var(--accent-color);
+}
+
+.portfolio-details .portfolio-info {
+  padding: 30px;
+  box-shadow: 0px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-details .portfolio-info h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+}
+
+.portfolio-details .portfolio-info ul {
+  list-style: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+.portfolio-details .portfolio-info ul li+li {
+  margin-top: 10px;
+}
+
+.portfolio-details .portfolio-description {
+  padding-top: 30px;
+}
+
+.portfolio-details .portfolio-description h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.portfolio-details .portfolio-description p {
+  padding: 0;
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+}
+
+/*--------------------------------------------------------------
+# Service Details Section
+--------------------------------------------------------------*/
+.service-details .services-list {
+  padding: 10px 30px;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  margin-bottom: 20px;
+}
+
+.service-details .services-list a {
+  display: block;
+  line-height: 1;
+  padding: 8px 0 8px 15px;
+  border-left: 3px solid color-mix(in srgb, var(--default-color), transparent 70%);
+  margin: 20px 0;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  transition: 0.3s;
+}
+
+.service-details .services-list a.active {
+  color: var(--heading-color);
+  font-weight: 700;
+  border-color: var(--accent-color);
+}
+
+.service-details .services-list a:hover {
+  border-color: var(--accent-color);
+}
+
+.service-details .services-img {
+  margin-bottom: 20px;
+}
+
+.service-details h3 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.service-details h4 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.service-details p {
+  font-size: 15px;
+}
+
+.service-details ul {
+  list-style: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+.service-details ul li {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.service-details ul i {
+  font-size: 20px;
+  margin-right: 8px;
+  color: var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# Starter Section Section
+--------------------------------------------------------------*/
+.starter-section {
+  /* Add your styles here */
+}
+
+/* Add the Awards Section styles */
+/*--------------------------------------------------------------
+# Awards Section
+--------------------------------------------------------------*/
+.award-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust gap as needed */
+  justify-content: center;
+}
+
+.award-item {
+  background-color: var(--surface-color); 
+  padding: 20px 15px; /* Adjust padding */
+  border-radius: var(--bs-border-radius-sm, 0.15rem); /* Use Bootstrap variable or our reduced value */
+  width: calc(33.333% - 20px); /* Adjust width for responsiveness, example for 3 columns */
+  text-align: center;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added transform and shadow transitions */
+}
+
+/* Adjust width for smaller screens */
+@media (max-width: 991px) {
+  .award-item {
+    width: calc(50% - 15px);
+  }
+}
+
+@media (max-width: 767px) {
+  .award-item {
+    width: calc(100% - 10px);
+  }
+}
+
+.award-item h3 {
+  margin-top: 0;
+  margin-bottom: 10px; /* Add space below heading */
+  color: var(--heading-color);
+  font-size: 1.1rem; /* Adjust size */
+  font-weight: 600; /* Use Rajdhani bold */
+  transition: color 0.3s ease;
+}
+
+.award-item p {
+  font-size: 0.9rem; /* Adjust size */
+  color: var(--default-color);
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode specific adjustments for shadow if needed */
+body.dark-mode .award-item {
+   box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05); /* Lighter shadow for dark mode */
+}
+
+/* Add hover effect for Awards */
+.award-item:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .award-item:hover {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Style theme toggle container */
+.theme-toggle-container {
+  border-color: color-mix(in srgb, var(--default-color), transparent 90%) !important; /* Ensure border uses theme color */
+}
+
+/* Style theme toggle button */
+#theme-toggle {
+  border-color: var(--nav-color);
+  color: var(--nav-color);
+}
+
+#theme-toggle:hover,
+#theme-toggle:focus {
+  border-color: var(--nav-hover-color);
+  color: var(--nav-hover-color);
+  background-color: color-mix(in srgb, var(--nav-hover-color), transparent 90%);
+}
+
+/* --- End Horizontal Scroll Styles --- */
+
+/* --- Custom Portfolio Layout Styles --- */
+.portfolio-custom-layout .portfolio-top-row {
+  display: flex;
+  margin-bottom: 20px; /* Space between top and bottom rows */
+  gap: 20px; /* Space between robot and cubesat */
+  /* align-items: stretch; */ /* Ensure items stretch if needed, default for flex */
+}
+
+.portfolio-custom-layout .portfolio-robot,
+.portfolio-custom-layout .portfolio-cubesat {
+  flex: 1; /* Let flexbox handle width distribution */
+}
+
+/* Set fixed height for top row item content */
+.portfolio-custom-layout .portfolio-top-row .portfolio-item .portfolio-content {
+  height: 350px; /* Adjust this value as needed */
+  overflow: hidden; /* Needed for object-fit */
+}
+
+/* Make images in top row cover the container height */
+.portfolio-custom-layout .portfolio-top-row .portfolio-item .portfolio-content img {
+  width: 100%;
+  height: 100%; /* Fill the container height */
+  object-fit: cover; /* Cover container, maintain aspect ratio, crop if needed */
+  display: block;
+}
+
+/* Ensure bottom image scales normally */
+.portfolio-custom-layout .portfolio-bottom-row .portfolio-item .portfolio-content img {
+  width: 100%;
+  height: auto; 
+  object-fit: contain; /* Ensure whole image is visible */
+  display: block;
+}
+/* --- End Custom Portfolio Layout Styles --- */
+
+/* Portfolio Item Base Styles (Ensure these apply) */
+.portfolio-item .portfolio-content {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+  border-radius: 0.15rem;
+}
+
+.portfolio-item .portfolio-content:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-color: var(--accent-color);
+}
+
+body.dark-mode .portfolio-item .portfolio-content:hover {
+  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-color);
+}
+
+.portfolio-item .portfolio-info {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transition: all ease-in-out 0.3s;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+}
+
+.portfolio-item .portfolio-info h4 {
+  font-size: 14px;
+  padding: 5px 10px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  background-color: var(--accent-color);
+}
+
+.portfolio-item .portfolio-info p {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.portfolio-item .portfolio-info .preview-link,
+.portfolio-item .portfolio-info .details-link {
+  position: absolute;
+  left: calc(50% - 40px);
+  font-size: 26px;
+  top: calc(50% - 14px);
+  color: #fff;
+  transition: 0.3s;
+  line-height: 1.2;
+}
+
+.portfolio-item .portfolio-info .preview-link:hover,
+.portfolio-item .portfolio-info .details-link:hover {
+  color: var(--accent-color);
+}
+
+.portfolio-item .portfolio-info .details-link {
+  left: 50%;
+  font-size: 34px;
+  line-height: 0;
+}
+
+.portfolio-item .portfolio-content:hover .portfolio-info {
+  opacity: 1;
+}
+/* End Portfolio Item Base Styles */
+
+/* Remove Isotope Filters styles if they exist */
+.portfolio .portfolio-filters { display: none; } 
+
+/*--------------------------------------------------------------
+# Services Section
+--------------------------------------------------------------*/
+.services .service-item {
+  position: relative;
+}
+
+.services .service-item .icon {
+  background: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  transition: 0.5s;
+  border: 1px solid var(--accent-color);
+  margin-right: 20px;
+}
+
+.services .service-item .icon i {
+  color: var(--contrast-color);
+  font-size: 24px;
+  line-height: 0;
+}
+
+.services .service-item:hover .icon {
+  background: var(--surface-color);
+}
+
+.services .service-item:hover .icon i {
+  color: var(--accent-color);
+}
+
+.services .service-item .title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.services .service-item .title a {
+  color: var(--heading-color);
+}
+
+.services .service-item .title a:hover {
+  color: var(--accent-color);
+}
+
+.services .service-item .description {
+  line-height: 24px;
+  font-size: 14px;
+}
+
+/*--------------------------------------------------------------
+# Custom Cursor & Reactive Background
+--------------------------------------------------------------*/
+/* Reactive radial highlight follows cursor - adjusted for smoother feel */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--cursor-x) var(--cursor-y),
+    rgba(20, 157, 221, 0.08),  /* Reduced opacity from 0.15 to 0.08 */
+    transparent 250px  /* Reduced from 300px for subtler effect */
+  );
+  transition: background-position 0.1s ease-out;  /* Smoother transition */
+  z-index: -1;
+}
+
+/* Add smooth hover transitions */
+a, 
+button,
+.btn,
+.nav-link {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);  /* Apple-like smooth transition */
+}
+
+/* Increase spacing between elements */
+section {
+  padding: 80px 0;  /* Increased from 60px */
+}
+
+.section-title {
+  padding-bottom: 80px;  /* Increased from 60px */
+}
+
+/* Add more breathing room between elements */
+p {
+  margin-bottom: 1.5rem;  /* Increased from default */
+  line-height: 1.7;  /* Increased line height for better readability */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1.2rem;  /* Added consistent spacing */
+}
+
+/* Adjust container padding */
+.container {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
