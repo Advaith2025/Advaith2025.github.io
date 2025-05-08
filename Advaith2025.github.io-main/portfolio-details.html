@@ -213,6 +213,8 @@
           document.getElementById('project-title').textContent = info.title;
           document.getElementById('project-description').textContent = info.description;
           document.getElementById('project-github').textContent = info.github;
+		  document.getElementById('project-github').href = info.github;
+
         }
       }
     });
@@ -230,6 +232,7 @@
       document.getElementById('project-title').textContent = info.title;
       document.getElementById('project-description').textContent = info.description;
       document.getElementById('project-github').textContent = info.github;
+	  document.getElementById('project-github').href = info.github;
     });
 
     swiper.init();
