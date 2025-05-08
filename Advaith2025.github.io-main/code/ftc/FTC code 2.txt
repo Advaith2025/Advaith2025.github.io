@@ -1,0 +1,144 @@
+package org.firstinspires.ftc.teamcode;
+
+
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@Disabled
+@Autonomous(name = "Auton", group = "MCA Eagles Programs")
+public final class autonFinal extends LinearOpMode {
+
+    DcMotor verticalViper = null;
+    Servo clawL, clawR;
+    CRServo intake = null;
+    Servo wrist = null;
+    Servo bucket = null;
+
+    public void close() {
+        clawL.setPosition(0.4875);
+        clawR.setPosition(0.4625);
+    }
+
+    public void open() {
+        clawL.setPosition(0.3);
+        clawR.setPosition(0.7);
+    }
+
+    public void moveVert(int pos) {
+        verticalViper.setTargetPosition(pos);
+        verticalViper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        verticalViper.setPower(1);
+    }
+
+    public void startRaise() {
+        moveVert(-6000);
+    }
+
+    public void hangSpec() {
+        moveVert(-3500);
+        sleep(3000);
+        open();
+        sleep(1500);
+        moveVert(0);
+    }
+
+    public void pickupSpec() {
+        moveVert(0);
+        close();
+        sleep(500);
+        startRaise();
+        sleep(500);
+    }
+
+    public void pickupSam() {
+        wrist.setPosition(0.325);
+        sleep(1000);
+        intake.setPower(1);
+        sleep(1500);
+        intake.setPower(0);
+        wrist.setPosition(0.58);
+        sleep(500);
+    }
+
+
+    public void runOpMode() throws InterruptedException {
+        verticalViper = hardwareMap.dcMotor.get("Viper_Vertical");
+        clawL = hardwareMap.servo.get("Claw_Left");
+        clawR = hardwareMap.servo.get("Claw_Right");
+        intake = hardwareMap.crservo.get("Intake");
+        wrist = hardwareMap.servo.get("Intake_Wrist");
+        bucket = hardwareMap.servo.get("Bucket");
+
+        wrist.setPosition(0.4);
+        Servo bucket = hardwareMap.servo.get("Bucket");
+        bucket.setPosition(0.7);
+
+        verticalViper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        verticalViper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        Pose2d beginPose = new Pose2d(9, -64, Math.toRadians(90));
+        Pose2d intermediateToSam1 = new Pose2d(-39.18, -52.24, Math.toRadians(153.8));
+        Pose2d sam1 = new Pose2d(-49.25, -34, Math.toRadians(90));
+        Pose2d sam2 = new Pose2d(-59.25, -34, Math.toRadians(90));
+        Pose2d sam3 = new Pose2d(-69.25, -34, Math.toRadians(90));
+        Pose2d basketZone = new Pose2d(-60, -57, Math.toRadians(45));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+// Points:
+//        Vector2d(-39.18, -52.24), Math.toRadians(153.58))   //middle to 1st samp
+//                .splineTo(new Vector2d(-49.25, -34.00), Math.toRadians(90.00) //1st samp
+//                .splineTo(new Vector2d(-58.08, -58.25), Math.toRadians(45.00)) // 1st deposit
+//                .splineTo(new Vector2d(-59.25, -34.02), Math.toRadians(93.47)) // 2nd samp
+//                .splineTo(new Vector2d(-60.32, -57.05), Math.toRadians(45.00)) // 2nd deposit
+//                .splineTo(new Vector2d(-69.25, -34.00), Math.toRadians(111.88)) //3rd samo
+//                .splineTo(new Vector2d(-62.21, -56.53), Math.toRadians(-72.30)) //3rd deposit
+
+        Action startToSam1 = drive.actionBuilder(beginPose)
+                .splineTo(sam1.position, sam1.heading)
+                .build();
+        Action sam1ToBasket = drive.actionBuilder(sam1)
+                .splineTo(basketZone.position, basketZone.heading)
+                .build();
+        Action basketToSam2 = drive.actionBuilder(basketZone)
+                .splineTo(sam2.position, sam2.heading)
+                .build();
+        Action sam2ToBasket = drive.actionBuilder(sam2)
+                .splineTo(basketZone.position, basketZone.heading)
+                .build();
+        Action basketToSam3 = drive.actionBuilder(basketZone)
+                .splineTo(basketZone.position, basketZone.heading)
+                .build();
+        Action sam3ToBasket = drive.actionBuilder(sam3)
+                .splineTo(sam3.position, sam3.heading)
+                .build();
+
+
+        //Action combined = new SequentialAction(startToSpec,specCenterToSpec1, getAllSamples, goToSpecPickup, specCycle1);
+        close();
+        waitForStart();
+        Actions.runBlocking(startToSam1);
+        pickupSam();
+        sleep(1000);
+        Actions.runBlocking(sam1ToBasket);
+        open();
+        sleep(1000);
+        Actions.runBlocking(basketToSam2);
+        pickupSam();
+        sleep(1000);
+        Actions.runBlocking(sam2ToBasket);
+        open();
+        sleep(1000);
+        Actions.runBlocking(basketToSam3);
+        pickupSam();
+        sleep(1000);
+        Actions.runBlocking(sam3ToBasket);
+        open();
+        sleep(1000);
+    }
+}
